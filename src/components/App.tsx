@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AppRouter from './Router';
 
-function App() {
+function App(): JSX.Element {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
-    <div className="App">
-      <AppRouter />
-    </div>
+    <>
+      <AppRouter isLoggedIn={isLoggedIn} />
+    </>
   );
 }
 
