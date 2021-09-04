@@ -45,9 +45,6 @@ const Auth = () => {
     }
   };
 
-  const testHandle = () => {
-    console.log('작동');
-  };
   return (
     <div>
       <form>
@@ -70,14 +67,9 @@ const Auth = () => {
         <button onClick={handleSubmit}>
           {newAccount ? 'Create Accountaa' : 'Log In'}
         </button>
-        {/* <input
-          type="submit"
-          value={newAccount ? 'Create Accountaa' : 'Log In'}
-          onClick={handleSubmit}
-        /> */}
       </form>
       <div>
-        <button onClick={testHandle}>Continue with Google</button>
+        <button>Continue with Google</button>
         <button>Continue with Github</button>
       </div>
     </div>
