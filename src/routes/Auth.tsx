@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import authService, { auth } from 'fbase';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [newAccount, setNewAccount] = useState(true);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
@@ -16,9 +18,35 @@ const Auth = () => {
     }
   };
 
-  console.log(email, password);
-  const onSubmit = (event: React.FormEvent<HTMLInputElement>) => {
+  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    console.log('작동은 함');
+
+    try {
+      let data;
+      if (newAccount) {
+        // create new Account
+        data = await authService.createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+      } else {
+        // log in
+        data = await authService.signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+      }
+      console.log('auth data : ', data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const testHandle = () => {
+    console.log('작동');
   };
   return (
     <div>
@@ -39,10 +67,17 @@ const Auth = () => {
           value={password}
           onChange={onChange}
         />
-        <input type="submit" value="Log In" onSubmit={onSubmit} />
+        <button onClick={handleSubmit}>
+          {newAccount ? 'Create Accountaa' : 'Log In'}
+        </button>
+        {/* <input
+          type="submit"
+          value={newAccount ? 'Create Accountaa' : 'Log In'}
+          onClick={handleSubmit}
+        /> */}
       </form>
       <div>
-        <button>Continue with Google</button>
+        <button onClick={testHandle}>Continue with Google</button>
         <button>Continue with Github</button>
       </div>
     </div>
