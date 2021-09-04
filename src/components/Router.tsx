@@ -1,9 +1,10 @@
 import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import authService from 'fbase';
 import Auth from '../routes/Auth';
 import Home from '../routes/Home';
 interface Props {
-  isLoggedIn: any;
+  isLoggedIn: authService.User | null;
 }
 const AppRouter = ({ isLoggedIn }: Props) => {
   return (

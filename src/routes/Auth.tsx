@@ -5,6 +5,7 @@ const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [newAccount, setNewAccount] = useState(true);
+  const [error, setError] = useState('');
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
@@ -18,9 +19,10 @@ const Auth = () => {
     }
   };
 
+  const toggleAccount = () => setNewAccount(prev => !prev);
+
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    console.log('작동은 함');
 
     try {
       let data;
@@ -41,7 +43,9 @@ const Auth = () => {
       }
       console.log('auth data : ', data);
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        setError(error.message);
+      }
     }
   };
 
@@ -67,6 +71,19 @@ const Auth = () => {
         <button onClick={handleSubmit}>
           {newAccount ? 'Create Accountaa' : 'Log In'}
         </button>
+        <div style={{ marginTop: '30px', marginBottom: '30px' }}>
+          <span
+            onClick={toggleAccount}
+            style={{
+              border: '1px solid black',
+              padding: '5px',
+              cursor: 'pointer',
+            }}
+          >
+            {newAccount ? 'Sign In' : 'Create Account'}
+          </span>
+        </div>
+        <div>{error}</div>
       </form>
       <div>
         <button>Continue with Google</button>
