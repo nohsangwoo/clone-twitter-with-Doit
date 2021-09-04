@@ -1,5 +1,10 @@
 import React from 'react';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  HashRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 import authService from 'fbase';
 import Auth from '../routes/Auth';
 
@@ -15,24 +20,26 @@ const AppRouter = ({ isLoggedIn }: Props) => {
     <Router>
       {/* 로그인페이지에서는 네비게이션이 보일 필요 없으니 isLoggeIn에 의존한다 */}
       {isLoggedIn && <Navigation />}
-      <Switch>
-        {isLoggedIn ? (
-          <>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route exact path="/profile">
-              <Profile />
-            </Route>
-          </>
-        ) : (
-          <>
-            <Route exact path="/">
-              <Auth />
-            </Route>
-          </>
-        )}
-      </Switch>
+
+      {isLoggedIn ? (
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route exact path="/profile">
+            <Profile />
+          </Route>
+          <Redirect from="*" to="/" />
+        </Switch>
+      ) : (
+        <Switch>
+          <Route exact path="/">
+            <Auth />
+          </Route>
+          <Redirect from="*" to="/" />
+        </Switch>
+      )}
+      {/* 조건에서 걸러진 경우(위 조건별 path 이외의 상태) Redirect가 동작함 */}
     </Router>
   );
 };
