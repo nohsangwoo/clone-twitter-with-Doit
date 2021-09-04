@@ -9,7 +9,7 @@ const Auth = () => {
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
-      target: { name, value },
+      currentTarget: { name, value },
     } = event;
 
     if (name === 'email') {
@@ -20,6 +20,24 @@ const Auth = () => {
   };
 
   const toggleAccount = () => setNewAccount(prev => !prev);
+
+  const onSocialClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    const {
+      currentTarget: { name },
+    } = event;
+    let provider;
+    if (name === 'google') {
+      provider = new authService.GoogleAuthProvider();
+    } else if (name === 'github') {
+      provider = new authService.GithubAuthProvider();
+    }
+
+    let data;
+    if (provider) {
+      data = await authService.signInWithPopup(auth, provider);
+    }
+    console.log('social login data: ', data);
+  };
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -86,8 +104,12 @@ const Auth = () => {
         <div>{error}</div>
       </form>
       <div>
-        <button>Continue with Google</button>
-        <button>Continue with Github</button>
+        <button onClick={onSocialClick} name="google">
+          Continue with Google
+        </button>
+        <button onClick={onSocialClick} name="github">
+          Continue with Github
+        </button>
       </div>
     </div>
   );
