@@ -2,19 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { addDoc, collection, getFirestore, getDocs } from 'firebase/firestore';
 const Home = () => {
   const [tweet, setTweet] = useState('');
-
+  const [tweets, setTweets] = useState<any>([]);
   const getTweets = async () => {
     // 모든 트윗을 가져오게 하는 조건
     // 실시간은 아님
     const dbTweets = await (
       await getDocs(collection(getFirestore(), 'tweets'))
     ).docs;
-    console.log('dbTweets: ', dbTweets[0].data());
+    dbTweets.forEach(document =>
+      setTweets((prev: any) => {
+        // 불변성 지키면서 push 기능 수행
+        return [document.data(), ...prev];
+      })
+    );
   };
   useEffect(() => {
     getTweets();
   }, []);
 
+  console.log('tweets?: ', tweets);
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
