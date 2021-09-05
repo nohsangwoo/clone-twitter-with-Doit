@@ -49,7 +49,6 @@ const Home = ({ userObj }: Props) => {
         };
       });
       setTweets(newArray);
-      console.log('Current tweets in CA: ', newArray);
     });
 
     return () => {
@@ -78,7 +77,6 @@ const Home = ({ userObj }: Props) => {
     } = event;
     setTweet(value);
   };
-
   return (
     <>
       <form onSubmit={onSubmit}>
@@ -92,13 +90,13 @@ const Home = ({ userObj }: Props) => {
         <input type="submit" value="tweet" />
       </form>
       <div>
-        {tweets.map((tweet: any, index: number) => {
+        {tweets.map((tweetObj: any) => {
           return (
             <Tweet
-              key={tweet.id}
-              tweetObj={tweet}
+              key={tweetObj.id}
+              tweetObj={tweetObj}
               // 내가 쓴 tweet만 제어하기 위한 조건
-              isOwner={tweet.creatorId === userObj.uid}
+              isOwner={tweetObj.creatorId === userObj.uid}
             />
           );
         })}

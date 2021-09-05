@@ -65,3 +65,7 @@
 - ref3: https://firebase.google.com/docs/firestore/query-data/order-limit-data?hl=ko
 
 - ref4: https://firebase.google.com/docs/firestore/query-data/listen
+
+## Delete
+
+- ref: https://firebase.google.com/docs/firestore/manage-data/delete-data
