@@ -93,7 +93,14 @@ const Home = ({ userObj }: Props) => {
       </form>
       <div>
         {tweets.map((tweet: any, index: number) => {
-          return <Tweet key={tweet.id} tweetObj={tweet} />;
+          return (
+            <Tweet
+              key={tweet.id}
+              tweetObj={tweet}
+              // 내가 쓴 tweet만 제어하기 위한 조건
+              isOwner={tweet.creatorId === userObj.uid}
+            />
+          );
         })}
       </div>
     </>
