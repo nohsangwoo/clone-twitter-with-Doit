@@ -22,7 +22,6 @@ const Home = () => {
     getTweets();
   }, []);
 
-  console.log('tweets?: ', tweets);
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -45,16 +44,27 @@ const Home = () => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <input
-        value={tweet}
-        onChange={onChange}
-        type="text"
-        placeholder="What's on your mind?"
-        maxLength={120}
-      />
-      <input type="submit" value="tweet" />
-    </form>
+    <>
+      <form onSubmit={onSubmit}>
+        <input
+          value={tweet}
+          onChange={onChange}
+          type="text"
+          placeholder="What's on your mind?"
+          maxLength={120}
+        />
+        <input type="submit" value="tweet" />
+      </form>
+      <div>
+        {tweets.map((tweet: any, index: number) => {
+          return (
+            <div key={tweet.id}>
+              <h4>{tweet.text}</h4>
+            </div>
+          );
+        })}
+      </div>
+    </>
   );
 };
 
