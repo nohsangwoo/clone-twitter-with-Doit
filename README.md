@@ -71,3 +71,5 @@
 - ref: https://firebase.google.com/docs/firestore/manage-data/delete-data
 
 ## Update
+
+-ref: https://firebase.google.com/docs/firestore/manage-data/add-data#update-data

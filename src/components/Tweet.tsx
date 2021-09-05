@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { deleteDoc, getFirestore, doc, updateDoc } from 'firebase/firestore';
+import {
+  deleteDoc,
+  getFirestore,
+  doc,
+  updateDoc,
+  //   setDoc,
+} from 'firebase/firestore';
 type Props = {
   tweetObj: any;
   isOwner: boolean;
@@ -7,7 +13,7 @@ type Props = {
 const Tweet = ({ tweetObj, isOwner }: Props) => {
   const [error, setError] = useState<Error>();
   const [editing, setEditing] = useState<boolean>(false);
-  const [newTweet, setNewTweet] = useState();
+  const [newTweet, setNewTweet] = useState<string>('');
   const onDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
     const ok = window.confirm('삭제 하시겠습니까?');
     if (ok) {
@@ -26,14 +32,35 @@ const Tweet = ({ tweetObj, isOwner }: Props) => {
   const toggleEditing = (event: React.MouseEvent<HTMLButtonElement>) => {
     setEditing((prev: any) => !prev);
   };
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      currentTarget: { value },
+    } = event;
+
+    setNewTweet(value);
+  };
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(tweetObj.id, newTweet);
+    // Create an initial document to update.
+    // getFirestore(), 컬렉션이름, 도큐먼트이름
+    const frankDocRef = doc(getFirestore(), 'tweets', tweetObj.id);
+    await updateDoc(frankDocRef, {
+      text: newTweet,
+    });
+    setEditing(false);
+  };
   return (
     <div
       style={{ border: '1px solid black', margin: '10px 0', padding: '10px' }}
     >
       {editing ? (
         <>
-          <form>
-            <input value={newTweet} required />
+          <form onSubmit={onSubmit}>
+            <input value={newTweet} onChange={onChange} required />
+            <input type="submit" value="Update Tweet" />
           </form>
           <button onClick={toggleEditing}>Cancel</button>
         </>
