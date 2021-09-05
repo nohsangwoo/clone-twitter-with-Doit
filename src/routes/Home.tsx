@@ -36,35 +36,20 @@ const Home = ({ userObj }: Props) => {
     // getTweets();
     // 실시간으로 데이터를 데이터베이스에서 가져오기
 
-    // orderBy('tweets');
-    // query()
-    // onSnapshot(collection(getFirestore(), 'tweets'), snapShot => {
-    //   // console.log(snapShot.docs);
-    //   orderBy('desc');
-
-    //   const newArray = snapShot.docs.map((document: any) => {
-    //     return {
-    //       id: document.id,
-    //       ...document.data(),
-    //     };
-    //   });
-    //   setTweets(newArray);
-    // });
-
     const q = query(
       collection(getFirestore(), 'tweets'),
       // where('text', '==', 'hehe')
       orderBy('createdAt')
     );
     const unsubscribe = onSnapshot(q, querySnapshot => {
-      let tweets: any[] = [];
-      querySnapshot.forEach(doc => {
-        // tweets.push(doc.data());
-        tweets = [...tweets, doc.data()];
-        console.log('new data', doc.data());
+      const newArray = querySnapshot.docs.map(doc => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
       });
-      console.log('Current tweets in CA: ', tweets);
-      setTweets(tweets);
+      setTweets(newArray);
+      console.log('Current tweets in CA: ', newArray);
     });
 
     return () => {
@@ -109,7 +94,7 @@ const Home = ({ userObj }: Props) => {
       <div>
         {tweets.map((tweet: any, index: number) => {
           return (
-            <div key={index}>
+            <div key={tweet.id}>
               <h4>{tweet.text}</h4>
             </div>
           );
