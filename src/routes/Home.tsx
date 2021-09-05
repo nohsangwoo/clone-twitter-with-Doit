@@ -9,12 +9,14 @@ const Home = () => {
     const dbTweets = await (
       await getDocs(collection(getFirestore(), 'tweets'))
     ).docs;
-    dbTweets.forEach(document =>
-      setTweets((prev: any) => {
+    dbTweets.forEach(document => {
+      // 데이터 삭제 등의 제어를 위해 각 데이터의 유니크 아이디를 추가 저장한다.
+      const tweetObj = { ...document.data(), id: document.id };
+      return setTweets((prev: any) => {
         // 불변성 지키면서 push 기능 수행
-        return [document.data(), ...prev];
-      })
-    );
+        return [tweetObj, ...prev];
+      });
+    });
   };
   useEffect(() => {
     getTweets();
