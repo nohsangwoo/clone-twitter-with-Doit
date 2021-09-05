@@ -59,3 +59,9 @@
 ## get data with realtime way
 
 ## orderBy 사용 법 및 검색 방법 알아내기
+
+- ref1: https://firebase.google.com/docs/firestore/query-data/order-limit-data#web-version-9
+- ref2: https://firebase.google.com/docs/firestore/query-data/get-data
+- ref3: https://firebase.google.com/docs/firestore/query-data/order-limit-data?hl=ko
+
+- ref4: https://firebase.google.com/docs/firestore/query-data/listen

@@ -6,6 +6,7 @@ import {
   onSnapshot,
   orderBy,
   query,
+  where,
 } from 'firebase/firestore';
 
 type Props = {
@@ -37,21 +38,38 @@ const Home = ({ userObj }: Props) => {
 
     // orderBy('tweets');
     // query()
-    onSnapshot(collection(getFirestore(), 'tweets'), snapShot => {
-      console.log(snapShot.docs);
-      orderBy('desc');
+    // onSnapshot(collection(getFirestore(), 'tweets'), snapShot => {
+    //   // console.log(snapShot.docs);
+    //   orderBy('desc');
 
-      const newArray = snapShot.docs.map((document: any) => {
-        return {
-          id: document.id,
-          ...document.data(),
-        };
+    //   const newArray = snapShot.docs.map((document: any) => {
+    //     return {
+    //       id: document.id,
+    //       ...document.data(),
+    //     };
+    //   });
+    //   setTweets(newArray);
+    // });
+
+    const q = query(
+      collection(getFirestore(), 'tweets'),
+      // where('text', '==', 'hehe')
+      orderBy('createdAt')
+    );
+    const unsubscribe = onSnapshot(q, querySnapshot => {
+      let tweets: any[] = [];
+      querySnapshot.forEach(doc => {
+        // tweets.push(doc.data());
+        tweets = [...tweets, doc.data()];
+        console.log('new data', doc.data());
       });
-
-      setTweets(newArray);
+      console.log('Current tweets in CA: ', tweets);
+      setTweets(tweets);
     });
 
-    return () => {};
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -91,7 +109,7 @@ const Home = ({ userObj }: Props) => {
       <div>
         {tweets.map((tweet: any, index: number) => {
           return (
-            <div key={tweet.id}>
+            <div key={index}>
               <h4>{tweet.text}</h4>
             </div>
           );
