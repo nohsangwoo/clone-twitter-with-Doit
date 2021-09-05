@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
-
+import { addDoc, collection, getFirestore } from 'firebase/firestore';
 const Home = () => {
   const [tweet, setTweet] = useState('');
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    try {
+      const docRef = await addDoc(collection(getFirestore(), 'tweets'), {
+        text: tweet,
+        createdAt: Date.now(),
+      });
+      console.log('Document written with ID: ', docRef.id);
+    } catch (err) {}
+    setTweet('');
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -12,7 +20,9 @@ const Home = () => {
     const {
       currentTarget: { value },
     } = event;
+    setTweet(value);
   };
+
   return (
     <form onSubmit={onSubmit}>
       <input

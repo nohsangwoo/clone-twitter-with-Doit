@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom';
 import authService from 'fbase';
 import Auth from '../routes/Auth';
-
 import Navigation from './Navigation';
 import Home from '../routes/Home';
 import Profile from 'components/Profile';

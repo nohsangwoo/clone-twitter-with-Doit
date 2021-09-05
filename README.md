@@ -28,3 +28,11 @@
 ## useHistory usage
 
 - useHistory로 어떤 컴포넌트던 history 기능을 끌어다 사용할수있다.
+
+## input form setting for tweet
+
+## create database in firebase
+
+- firestore - test mode
+
+## upload to firestore Database
