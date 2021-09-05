@@ -8,7 +8,7 @@ import {
   query,
   where,
 } from 'firebase/firestore';
-
+import Tweet from './../components/Tweet';
 type Props = {
   userObj: any;
 };
@@ -93,11 +93,7 @@ const Home = ({ userObj }: Props) => {
       </form>
       <div>
         {tweets.map((tweet: any, index: number) => {
-          return (
-            <div key={tweet.id}>
-              <h4>{tweet.text}</h4>
-            </div>
-          );
+          return <Tweet key={tweet.id} tweetObj={tweet} />;
         })}
       </div>
     </>
