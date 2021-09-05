@@ -13,8 +13,9 @@ import Profile from 'components/Profile';
 
 interface Props {
   isLoggedIn: authService.User | null;
+  userObj: any;
 }
-const AppRouter = ({ isLoggedIn }: Props) => {
+const AppRouter = ({ isLoggedIn, userObj }: Props) => {
   return (
     <Router>
       {/* 로그인페이지에서는 네비게이션이 보일 필요 없으니 isLoggeIn에 의존한다 */}
@@ -23,7 +24,7 @@ const AppRouter = ({ isLoggedIn }: Props) => {
       {isLoggedIn ? (
         <Switch>
           <Route exact path="/">
-            <Home />
+            <Home userObj={userObj} />
           </Route>
           <Route exact path="/profile">
             <Profile />

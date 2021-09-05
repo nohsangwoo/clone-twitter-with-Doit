@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { addDoc, collection, getFirestore, getDocs } from 'firebase/firestore';
-const Home = () => {
+
+type Props = {
+  userObj: any;
+};
+const Home = ({ userObj }: Props) => {
+  console.log('userObj', userObj);
   const [tweet, setTweet] = useState('');
   const [tweets, setTweets] = useState<any>([]);
   const getTweets = async () => {
@@ -29,6 +34,7 @@ const Home = () => {
       const docRef = await addDoc(collection(getFirestore(), 'tweets'), {
         text: tweet,
         createdAt: Date.now(),
+        creatorId: userObj.uid,
       });
       console.log('Document written with ID: ', docRef.id);
     } catch (err) {}
