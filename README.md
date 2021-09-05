@@ -36,3 +36,18 @@
 - firestore - test mode
 
 ## upload to firestore Database
+
+- firestore에 업로드 하는 방법(with javascript 9 version)
+
+## 실시간이 아닌 사용자가 요청할때만 데이터를 불러오는 방법
+
+```
+  const dbTweets = await (
+    await getDocs(collection(getFirestore(), 'tweets'))
+    ).docs;
+    console.log('dbTweets: ', dbTweets[0].data());
+  };
+  useEffect(() => {
+    getTweets();
+  }, []);
+```

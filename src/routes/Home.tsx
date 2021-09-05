@@ -1,11 +1,24 @@
-import React, { useState } from 'react';
-import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import React, { useState, useEffect } from 'react';
+import { addDoc, collection, getFirestore, getDocs } from 'firebase/firestore';
 const Home = () => {
   const [tweet, setTweet] = useState('');
+
+  const getTweets = async () => {
+    // 모든 트윗을 가져오게 하는 조건
+    // 실시간은 아님
+    const dbTweets = await (
+      await getDocs(collection(getFirestore(), 'tweets'))
+    ).docs;
+    console.log('dbTweets: ', dbTweets[0].data());
+  };
+  useEffect(() => {
+    getTweets();
+  }, []);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
+      // firestore에 업로드 하는 방법(with javascript 9 version)
       const docRef = await addDoc(collection(getFirestore(), 'tweets'), {
         text: tweet,
         createdAt: Date.now(),
