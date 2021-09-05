@@ -55,3 +55,7 @@
 ## save ID from getDocs
 
 ## data binding (tweets)
+
+## get data with realtime way
+
+## orderBy 사용 법 및 검색 방법 알아내기
