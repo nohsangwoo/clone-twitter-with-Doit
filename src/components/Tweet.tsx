@@ -6,6 +6,8 @@ type Props = {
 };
 const Tweet = ({ tweetObj, isOwner }: Props) => {
   const [error, setError] = useState<Error>();
+  const [editing, setEditing] = useState<boolean>(false);
+  const [newTweet, setNewTweet] = useState();
   const onDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
     const ok = window.confirm('삭제 하시겠습니까?');
     if (ok) {
@@ -20,15 +22,30 @@ const Tweet = ({ tweetObj, isOwner }: Props) => {
         .finally(() => console.log('finally'));
     }
   };
+
+  const toggleEditing = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setEditing((prev: any) => !prev);
+  };
   return (
     <div
       style={{ border: '1px solid black', margin: '10px 0', padding: '10px' }}
     >
-      <h4>{tweetObj.text}</h4>
-      {isOwner && (
+      {editing ? (
         <>
-          <button onClick={onDelete}>Delete Tweet</button>
-          <button>Edit Tweet</button>
+          <form>
+            <input value={newTweet} required />
+          </form>
+          <button onClick={toggleEditing}>Cancel</button>
+        </>
+      ) : (
+        <>
+          <h4>{tweetObj.text}</h4>
+          {isOwner && (
+            <>
+              <button onClick={onDelete}>Delete Tweet</button>
+              <button onClick={toggleEditing}>Edit Tweet</button>
+            </>
+          )}
         </>
       )}
     </div>
