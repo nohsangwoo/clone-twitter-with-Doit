@@ -15,7 +15,10 @@ type Props = {
 const Home = ({ userObj }: Props) => {
   const [tweet, setTweet] = useState('');
   const [tweets, setTweets] = useState<any>([]);
-
+  const [attachment, setAttachment] = useState<
+    string | ArrayBuffer | null | undefined
+  >('');
+  const [selectedFile, setSelectedFile] = useState();
   // 일반적인 데이터를 데이터베이스에서 가져오기
   // const getTweets = async () => {
   //   // 모든 트윗을 가져오게 하는 조건
@@ -77,6 +80,37 @@ const Home = ({ userObj }: Props) => {
     } = event;
     setTweet(value);
   };
+
+  const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let theFile;
+    const {
+      currentTarget: { files },
+    } = event;
+    console.log(files);
+
+    if (files) {
+      theFile = files[0];
+    }
+    const reader = new FileReader();
+
+    if (theFile) {
+      reader.readAsDataURL(theFile);
+    }
+
+    // 이 onloadened함수는 일종의 useEffect처럼 작동한다
+    // readAsDataURL에 전달할 인자(사진파일)이 함수로 들어간 이후 결괏값이 나온 다음 상황을 감지하고
+    // 이때 생긴 여러가지 이벤트값을 사용할수 있게 한다.
+    // 이 이벤트중 그림파일을 표시할수있는 URL도 제공한다
+    reader.onloadend = (finishedEvent: ProgressEvent<FileReader>) => {
+      const result = finishedEvent.target?.result;
+      setAttachment(result);
+    };
+  };
+
+  const onClearAttachment = () => {
+    setAttachment('');
+  };
+
   return (
     <>
       <form onSubmit={onSubmit}>
@@ -87,7 +121,17 @@ const Home = ({ userObj }: Props) => {
           placeholder="What's on your mind?"
           maxLength={120}
         />
+        <input type="file" accept="image/*" onChange={onFileChange} />
         <input type="submit" value="tweet" />
+        {attachment && (
+          <img
+            src={String(attachment)}
+            width="50px"
+            height="50px"
+            alt="selected_picture"
+          />
+        )}
+        <button onClick={onClearAttachment}>Clear</button>
       </form>
       <div>
         {tweets.map((tweetObj: any) => {

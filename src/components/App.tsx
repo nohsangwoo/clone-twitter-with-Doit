@@ -30,7 +30,7 @@ function App(): JSX.Element {
       ) : (
         'initializing...'
       )}
-      <footer>&copy;{new Date().getFullYear()} Twitter clone</footer>
+      {/* <footer>&copy;{new Date().getFullYear()} Twitter clone</footer> */}
     </>
   );
 }

@@ -52,6 +52,7 @@ const Tweet = ({ tweetObj, isOwner }: Props) => {
     });
     setEditing(false);
   };
+
   return (
     <div
       style={{ border: '1px solid black', margin: '10px 0', padding: '10px' }}
