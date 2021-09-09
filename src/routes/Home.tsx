@@ -107,7 +107,8 @@ const Home = ({ userObj }: Props) => {
     };
   };
 
-  const onClearAttachment = () => {
+  const onClearAttachment = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     setAttachment('');
   };
 
