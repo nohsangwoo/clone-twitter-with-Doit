@@ -75,3 +75,14 @@
 -ref: https://firebase.google.com/docs/firestore/manage-data/add-data#update-data
 
 ## file select and clear
+
+## upload to firebase storage
+
+- https://firebase.google.com/docs/storage/web/upload-files#upload_from_a_string
+
+## use UUID
+
+- npm install uuid
+- npm i --save-dev @types/uuid // for typescript
+
+## 스토리지에서 사진 불러오기 구현해야함

@@ -9,6 +9,9 @@ import {
   where,
 } from 'firebase/firestore';
 import Tweet from './../components/Tweet';
+import { v4 as uuidv4 } from 'uuid';
+import { getStorage, ref, uploadBytes, uploadString } from 'firebase/storage';
+
 type Props = {
   userObj: any;
 };
@@ -19,6 +22,10 @@ const Home = ({ userObj }: Props) => {
     string | ArrayBuffer | null | undefined
   >('');
   const [selectedFile, setSelectedFile] = useState();
+
+  // Create a root reference
+  const storage = getStorage();
+
   // 일반적인 데이터를 데이터베이스에서 가져오기
   // const getTweets = async () => {
   //   // 모든 트윗을 가져오게 하는 조건
@@ -61,16 +68,35 @@ const Home = ({ userObj }: Props) => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    try {
-      // firestore에 업로드 하는 방법(with javascript 9 version)
-      const docRef = await addDoc(collection(getFirestore(), 'tweets'), {
-        text: tweet,
-        createdAt: Date.now(),
-        creatorId: userObj.uid,
+    // try {
+    //   // firestore에 업로드 하는 방법(with javascript 9 version)
+    //   const docRef = await addDoc(collection(getFirestore(), 'tweets'), {
+    //     text: tweet,
+    //     createdAt: Date.now(),
+    //     creatorId: userObj.uid,
+    //   });
+    //   console.log('Document written with ID: ', docRef.id);
+    // } catch (err) {}
+    // setTweet('');
+
+    // 업로드 경로 지정
+    const storageRef = ref(storage, `${userObj.uid}/${uuidv4()}}`);
+    // console.log('outsid attachment?: ', attachment);
+
+    // Data URL string
+    if (typeof attachment === 'string') {
+      uploadString(storageRef, attachment, 'data_url').then(snapshot => {
+        console.log('Uploaded a data_url string!', snapshot);
       });
-      console.log('Document written with ID: ', docRef.id);
-    } catch (err) {}
-    setTweet('');
+    }
+
+    // 'file' comes from the Blob or File API
+    // if (attachment instanceof ArrayBuffer) {
+    //   console.log('attachment?: ', attachment);
+    //   uploadBytes(storageRef, attachment).then(snapshot => {
+    //     console.log('Uploaded a blob or file!: ', snapshot);
+    //   });
+    // }
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
