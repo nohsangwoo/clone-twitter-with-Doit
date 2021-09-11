@@ -91,4 +91,5 @@
 
 ## getDownloadURL
 
+- ref: https://firebase.google.com/docs/storage/web/upload-files?hl=nb&authuser=3#monitor_upload_progress
 - firebase에 파일 업로드 후 다운로드 가능한 url 등등, 후 처리 방법 적용
