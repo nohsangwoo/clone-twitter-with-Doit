@@ -68,6 +68,14 @@ const Tweet = ({ tweetObj, isOwner }: Props) => {
       ) : (
         <>
           <h4>{tweetObj.text}</h4>
+          {tweetObj.attachmentURL && (
+            <img
+              src={tweetObj.attachmentURL}
+              width="50px"
+              height="50px"
+              alt="tweet"
+            />
+          )}
           {isOwner && (
             <>
               <button onClick={onDelete}>Delete Tweet</button>

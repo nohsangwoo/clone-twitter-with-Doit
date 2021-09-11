@@ -31,9 +31,7 @@ const Home = ({ userObj }: Props) => {
 
   const [attachmentFB, setAttachmentFB] = useState<
     string | ArrayBuffer | null | undefined
-  >('');
-  const [downloadURL, setDownloadURL] = useState<string>('');
-  const [selectedFile, setSelectedFile] = useState();
+  >(null);
 
   // Create a root reference
   const storage = getStorage();
@@ -78,15 +76,47 @@ const Home = ({ userObj }: Props) => {
     };
   }, []);
 
+  const clearAfterUpload = () => {
+    setTweet('');
+    setAttachment('');
+    setAttachmentFB(null);
+  };
+
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    // tweet upload용 함수
+    const uploadTweet = async (downloadURL?: string) => {
+      // tweet upload with downloadURL(images)
+      try {
+        // firestore에 업로드 하는 방법(with javascript 9 version)
+        const docRef = await addDoc(collection(getFirestore(), 'tweets'), {
+          text: tweet,
+          createdAt: Date.now(),
+          creatorId: userObj.uid,
+          attachmentURL: downloadURL || '',
+        });
+        console.log('Document written with ID: ', docRef.id);
+      } catch (err) {}
+      clearAfterUpload();
+    };
 
     // 업로드 경로 지정
     const storageRef = ref(storage, `${userObj.uid}/${uuidv4()}}`);
     // console.log('outsid attachment?: ', attachment);
 
+    // 이미지가 없다면 그냥 트윗만 한다
+    if (!attachmentFB) {
+      console.log('just tweet upload');
+      uploadTweet();
+      return;
+    }
+
     if (attachmentFB instanceof ArrayBuffer) {
+      console.log('tweet upload with image');
+
       console.log('attachmentFB', attachmentFB);
+
       const uploadTask = uploadBytesResumable(storageRef, attachmentFB);
 
       // Register three observers:
@@ -118,26 +148,7 @@ const Home = ({ userObj }: Props) => {
           // For instance, get the download URL: https://firebasestorage.googleapis.com/...
           getDownloadURL(uploadTask.snapshot.ref).then(async downloadURL => {
             console.log('File available at', downloadURL);
-            setDownloadURL(downloadURL);
-
-            // tweet upload with downloadURL(images)
-            try {
-              // firestore에 업로드 하는 방법(with javascript 9 version)
-              const docRef = await addDoc(
-                collection(getFirestore(), 'tweets'),
-                {
-                  text: tweet,
-                  createdAt: Date.now(),
-                  creatorId: userObj.uid,
-                  attachmentURL: downloadURL,
-                }
-              );
-              console.log('Document written with ID: ', docRef.id);
-            } catch (err) {}
-            setTweet('');
-            setDownloadURL('');
-            setAttachment('');
-            setAttachment('');
+            uploadTweet(downloadURL);
           });
         }
       );
@@ -147,14 +158,6 @@ const Home = ({ userObj }: Props) => {
     // if (typeof attachment === 'string') {
     //   uploadString(storageRef, attachment, 'data_url').then(snapshot => {
     //     console.log('Uploaded a data_url string!', snapshot);
-    //   });
-    // }
-
-    // 'file' comes from the Blob or File API
-    // if (attachment instanceof ArrayBuffer) {
-    //   console.log('attachment?: ', attachment);
-    //   uploadBytes(storageRef, attachment).then(snapshot => {
-    //     console.log('Uploaded a blob or file!: ', snapshot);
     //   });
     // }
   };
