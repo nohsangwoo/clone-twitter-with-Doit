@@ -88,3 +88,7 @@
 ## 스토리지에서 사진 불러오기 구현해야함
 
 ## firebase에 사진 업로드 방법(with javascript 9)
+
+## getDownloadURL
+
+- firebase에 파일 업로드 후 다운로드 가능한 url 등등, 후 처리 방법 적용
