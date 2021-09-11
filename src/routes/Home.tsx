@@ -10,7 +10,14 @@ import {
 } from 'firebase/firestore';
 import Tweet from './../components/Tweet';
 import { v4 as uuidv4 } from 'uuid';
-import { getStorage, ref, uploadBytes, uploadString } from 'firebase/storage';
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  uploadString,
+  uploadBytesResumable,
+  getDownloadURL,
+} from 'firebase/storage';
 
 type Props = {
   userObj: any;
@@ -19,6 +26,10 @@ const Home = ({ userObj }: Props) => {
   const [tweet, setTweet] = useState('');
   const [tweets, setTweets] = useState<any>([]);
   const [attachment, setAttachment] = useState<
+    string | ArrayBuffer | null | undefined
+  >('');
+
+  const [attachmentFB, setAttachmentFB] = useState<
     string | ArrayBuffer | null | undefined
   >('');
   const [selectedFile, setSelectedFile] = useState();
@@ -83,12 +94,50 @@ const Home = ({ userObj }: Props) => {
     const storageRef = ref(storage, `${userObj.uid}/${uuidv4()}}`);
     // console.log('outsid attachment?: ', attachment);
 
-    // Data URL string
-    if (typeof attachment === 'string') {
-      uploadString(storageRef, attachment, 'data_url').then(snapshot => {
-        console.log('Uploaded a data_url string!', snapshot);
-      });
+    if (attachmentFB instanceof ArrayBuffer) {
+      console.log('attachmentFB', attachmentFB);
+      const uploadTask = uploadBytesResumable(storageRef, attachmentFB);
+
+      // Register three observers:
+      // 1. 'state_changed' observer, called any time the state changes
+      // 2. Error observer, called on failure
+      // 3. Completion observer, called on successful completion
+      uploadTask.on(
+        'state_changed',
+        snapshot => {
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+          switch (snapshot.state) {
+            case 'paused':
+              console.log('Upload is paused');
+              break;
+            case 'running':
+              console.log('Upload is running');
+              break;
+          }
+        },
+        error => {
+          // Handle unsuccessful uploads
+        },
+        () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+          getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
+            console.log('File available at', downloadURL);
+          });
+        }
+      );
     }
+
+    // upload with Data URL string
+    // if (typeof attachment === 'string') {
+    //   uploadString(storageRef, attachment, 'data_url').then(snapshot => {
+    //     console.log('Uploaded a data_url string!', snapshot);
+    //   });
+    // }
 
     // 'file' comes from the Blob or File API
     // if (attachment instanceof ArrayBuffer) {
@@ -117,20 +166,39 @@ const Home = ({ userObj }: Props) => {
     if (files) {
       theFile = files[0];
     }
-    const reader = new FileReader();
 
-    if (theFile) {
-      reader.readAsDataURL(theFile);
-    }
+    // for image rendering
+    (function () {
+      const reader = new FileReader();
+      if (theFile) {
+        reader.readAsDataURL(theFile);
+        // 이 onloadened함수는 일종의 useEffect처럼 작동한다
+        // readAsDataURL에 전달할 인자(사진파일)이 함수로 들어간 이후 결괏값이 나온 다음 상황을 감지하고
+        // 이때 생긴 여러가지 이벤트값을 사용할수 있게 한다.
+        // 이 이벤트중 그림파일을 표시할수있는 URL도 제공한다
+        reader.onloadend = (finishedEvent: ProgressEvent<FileReader>) => {
+          // const base64 = reader.result;
+          // console.log('base64', typeof base64);
+          const result = finishedEvent.target?.result;
+          console.log('result', result);
+          setAttachment(result);
+        };
+      }
+    })();
 
-    // 이 onloadened함수는 일종의 useEffect처럼 작동한다
-    // readAsDataURL에 전달할 인자(사진파일)이 함수로 들어간 이후 결괏값이 나온 다음 상황을 감지하고
-    // 이때 생긴 여러가지 이벤트값을 사용할수 있게 한다.
-    // 이 이벤트중 그림파일을 표시할수있는 URL도 제공한다
-    reader.onloadend = (finishedEvent: ProgressEvent<FileReader>) => {
-      const result = finishedEvent.target?.result;
-      setAttachment(result);
-    };
+    // for firebase upload
+    (function () {
+      const reader = new FileReader();
+      if (theFile) {
+        reader.readAsArrayBuffer(theFile);
+        reader.onloadend = (finishedEvent: ProgressEvent<FileReader>) => {
+          const result = finishedEvent.target?.result;
+          console.log('result', result);
+          setAttachmentFB(result);
+          // setAttachment(result);
+        };
+      }
+    })();
   };
 
   const onClearAttachment = (event: React.MouseEvent<HTMLButtonElement>) => {

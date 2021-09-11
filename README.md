@@ -86,3 +86,5 @@
 - npm i --save-dev @types/uuid // for typescript
 
 ## 스토리지에서 사진 불러오기 구현해야함
+
+## firebase에 사진 업로드 방법(with javascript 9)
