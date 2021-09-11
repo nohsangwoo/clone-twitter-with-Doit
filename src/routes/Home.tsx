@@ -32,6 +32,7 @@ const Home = ({ userObj }: Props) => {
   const [attachmentFB, setAttachmentFB] = useState<
     string | ArrayBuffer | null | undefined
   >('');
+  const [downloadURL, setDownloadURL] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState();
 
   // Create a root reference
@@ -79,16 +80,6 @@ const Home = ({ userObj }: Props) => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // try {
-    //   // firestore에 업로드 하는 방법(with javascript 9 version)
-    //   const docRef = await addDoc(collection(getFirestore(), 'tweets'), {
-    //     text: tweet,
-    //     createdAt: Date.now(),
-    //     creatorId: userObj.uid,
-    //   });
-    //   console.log('Document written with ID: ', docRef.id);
-    // } catch (err) {}
-    // setTweet('');
 
     // 업로드 경로 지정
     const storageRef = ref(storage, `${userObj.uid}/${uuidv4()}}`);
@@ -125,8 +116,28 @@ const Home = ({ userObj }: Props) => {
         () => {
           // Handle successful uploads on complete
           // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-          getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async downloadURL => {
             console.log('File available at', downloadURL);
+            setDownloadURL(downloadURL);
+
+            // tweet upload with downloadURL(images)
+            try {
+              // firestore에 업로드 하는 방법(with javascript 9 version)
+              const docRef = await addDoc(
+                collection(getFirestore(), 'tweets'),
+                {
+                  text: tweet,
+                  createdAt: Date.now(),
+                  creatorId: userObj.uid,
+                  attachmentURL: downloadURL,
+                }
+              );
+              console.log('Document written with ID: ', docRef.id);
+            } catch (err) {}
+            setTweet('');
+            setDownloadURL('');
+            setAttachment('');
+            setAttachment('');
           });
         }
       );
@@ -195,12 +206,12 @@ const Home = ({ userObj }: Props) => {
           const result = finishedEvent.target?.result;
           console.log('result', result);
           setAttachmentFB(result);
-          // setAttachment(result);
         };
       }
     })();
   };
 
+  // 정리하는 부분
   const onClearAttachment = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setAttachment('');
