@@ -86,7 +86,11 @@ const Home = ({ userObj }: Props) => {
     event.preventDefault();
 
     // tweet upload용 함수
-    const uploadTweet = async (downloadURL?: string) => {
+    type data = {
+      downloadURL?: string;
+      uploadPath?: string;
+    };
+    const uploadTweet = async (data?: data) => {
       // tweet upload with downloadURL(images)
       try {
         // firestore에 업로드 하는 방법(with javascript 9 version)
@@ -94,7 +98,8 @@ const Home = ({ userObj }: Props) => {
           text: tweet,
           createdAt: Date.now(),
           creatorId: userObj.uid,
-          attachmentURL: downloadURL || '',
+          attachmentURL: data?.downloadURL || '',
+          uploadPath: data?.uploadPath || '',
         });
         console.log('Document written with ID: ', docRef.id);
       } catch (err) {}
@@ -102,10 +107,14 @@ const Home = ({ userObj }: Props) => {
     };
 
     // 업로드 경로 지정
-    const storageRef = ref(storage, `${userObj.uid}/${uuidv4()}}`);
+    const storageRef = ref(storage, `${userObj.uid}/${uuidv4()}`);
     // console.log('outsid attachment?: ', attachment);
+    const uploadPath = storageRef.fullPath;
+    // console.log('storageRef.fullPath: ', storageRef.fullPath);
+    // console.log('storageRef: ', storageRef);
 
     // 이미지가 없다면 그냥 트윗만 한다
+
     if (!attachmentFB) {
       console.log('just tweet upload');
       uploadTweet();
@@ -147,8 +156,12 @@ const Home = ({ userObj }: Props) => {
           // Handle successful uploads on complete
           // For instance, get the download URL: https://firebasestorage.googleapis.com/...
           getDownloadURL(uploadTask.snapshot.ref).then(async downloadURL => {
-            console.log('File available at', downloadURL);
-            uploadTweet(downloadURL);
+            console.log('File available at', downloadURL, uploadPath);
+            const data = {
+              downloadURL,
+              uploadPath,
+            };
+            uploadTweet(data);
           });
         }
       );

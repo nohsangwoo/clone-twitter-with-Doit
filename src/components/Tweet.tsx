@@ -6,6 +6,7 @@ import {
   updateDoc,
   //   setDoc,
 } from 'firebase/firestore';
+import { deleteObject, getStorage, ref } from 'firebase/storage';
 type Props = {
   tweetObj: any;
   isOwner: boolean;
@@ -21,7 +22,29 @@ const Tweet = ({ tweetObj, isOwner }: Props) => {
       //   console.log('tweetObj', tweetObj.id);
       //   doc("컬렉션이름", "문서이름")
       await deleteDoc(doc(getFirestore(), 'tweets', tweetObj.id))
-        .then(() => console.log('Delete succeeded!'))
+        .then(() => {
+          console.log('Delete succeeded!');
+
+          if (tweetObj.uploadPath !== '') {
+            console.log('image delete progress!');
+
+            const storage = getStorage();
+
+            // Create a reference to the file to delete
+            const desertRef = ref(storage, tweetObj.uploadPath);
+
+            // Delete the file
+            deleteObject(desertRef)
+              .then(() => {
+                // File deleted successfully
+                console.log('File deleted successfully');
+              })
+              .catch(error => {
+                // Uh-oh, an error occurred!
+                console.log('Uh-oh, an error occurred!');
+              });
+          }
+        })
         .catch(error => {
           setError(error.message);
         })
