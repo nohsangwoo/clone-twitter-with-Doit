@@ -110,3 +110,8 @@
 ## 일단 진행
 
 ## delete file
+
+## getDocs 일반적인 방법으로 데이터 불러오기(실시간 아님)
+
+- Profile에서 구현
+- 데이터 가져와서 console.log로 찍기, but 데이터 바인딩은 아직안함
