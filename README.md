@@ -116,3 +116,13 @@
 - Profile에서 구현
 - 데이터 가져와서 console.log로 찍기, but 데이터 바인딩은 아직안함
 - ref: https://firebase.google.com/docs/firestore/query-data/get-data
+
+## userObj의 displayName을 처리하기
+
+- 소셜로그인을 통해 로그인했을때만 채워지는 정보
+- 일반 이메일 비밀번호 로그인을 했을때는 기본값이 null이다
+- 따라서 Display Name을 업데이트 해주기위한 작업이 필요함
+
+## Profile update
+
+- ref: https://firebase.google.com/docs/auth/web/manage-users#update_a_users_profile
