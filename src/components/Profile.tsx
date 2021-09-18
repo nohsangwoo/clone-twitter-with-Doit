@@ -15,8 +15,9 @@ import { updateProfile } from 'firebase/auth';
 
 interface Props {
   userObj: any;
+  refreshUser: () => void;
 }
-const Profile = ({ userObj }: Props) => {
+const Profile = ({ userObj, refreshUser }: Props) => {
   const history = useHistory();
   const [newDisplayName, setNewDisplayName] = useState<string>(
     userObj.displayName || ''
@@ -54,6 +55,7 @@ const Profile = ({ userObj }: Props) => {
             console.log('Profile updated!');
             // redux를 사용하여 userObj를 캐싱하고 캐싱된 내용중 displayName을 업데이트 해준다
             // or 다른 방법을 강구
+            refreshUser();
           })
           .catch(error => {
             // An error occurred

@@ -14,8 +14,10 @@ function App(): JSX.Element {
     // 로그인된 정보가 저장된다면 로그인 이후의 처리를 위한 작업
     authService.onAuthStateChanged(auth, user => {
       if (user) {
-        setIsLoggedIn(user);
-        setUserObj(user);
+        setUserObj({
+          uid: user.uid,
+          displayName: user.displayName,
+        });
       } else {
         setIsLoggedIn(null);
       }
@@ -23,10 +25,23 @@ function App(): JSX.Element {
     });
   }, []);
 
+  const refreshUser = () => {
+    const user = auth.currentUser;
+    if (user) {
+      setUserObj({
+        uid: user.uid,
+        displayName: user.displayName,
+      });
+    }
+  };
   return (
     <>
       {init ? (
-        <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} />
+        <AppRouter
+          isLoggedIn={Boolean(userObj)}
+          userObj={userObj}
+          refreshUser={refreshUser}
+        />
       ) : (
         'initializing...'
       )}

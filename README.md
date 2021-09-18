@@ -126,3 +126,5 @@
 ## Profile update
 
 - ref: https://firebase.google.com/docs/auth/web/manage-users#update_a_users_profile
+
+## redux 도입해서 로그인 로그아웃 관련 리렌더링 적용하기
