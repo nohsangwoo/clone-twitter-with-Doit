@@ -128,3 +128,36 @@
 - ref: https://firebase.google.com/docs/auth/web/manage-users#update_a_users_profile
 
 ## redux 도입해서 로그인 로그아웃 관련 리렌더링 적용하기
+
+## clean code (Refactoring)
+
+## install and apply libs...
+
+## redux things
+
+- core
+  redux, react-redux
+- middleware
+  redux-logger, redux-persist, redux-saga
+- tool-kit
+  npm install @reduxjs/toolkit
+
+## socket.io-client
+
+## animation
+
+- npm i aos
+- npm i --save-dev @types/aos
+
+## styled-components
+
+- npm install styled-components
+- npm i --save-dev @types/styled-components
+
+## material-ui
+
+npm i @material-ui/core @material-ui/icons @material-ui/lab @material-ui/styles
+
+## end of install and apply libs...
+
+- 위 라이브러리들 적용 및 테스팅 완료
