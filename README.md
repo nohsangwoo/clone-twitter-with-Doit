@@ -163,3 +163,5 @@ npm i @material-ui/core @material-ui/icons @material-ui/lab @material-ui/styles
 - 위 라이브러리들 적용 및 테스팅 완료
 
 ## lodash
+
+## AOSINIT setup
