@@ -1,16 +1,16 @@
-import React from 'react';
+import React from "react";
 import {
   HashRouter as Router,
   Route,
   Switch,
-  Redirect,
-} from 'react-router-dom';
-import authService from 'fbase';
-import Auth from '../routes/Auth';
-import Navigation from './Navigation';
-import Home from '../routes/Home';
-import Profile from 'components/Profile';
-
+  Redirect
+} from "react-router-dom";
+import authService from "fbase";
+import Auth from "../routes/Auth";
+import Navigation from "./Navigation";
+import Home from "../routes/Home";
+import Profile from "components/Profile";
+import { customHistory } from "store/store";
 interface Props {
   isLoggedIn: boolean;
   userObj: any;
