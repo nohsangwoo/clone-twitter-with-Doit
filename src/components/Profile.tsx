@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import authService, { auth } from "fbase";
 import { useHistory } from "react-router";
 import {

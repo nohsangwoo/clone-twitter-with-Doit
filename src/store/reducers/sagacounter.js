@@ -1,8 +1,8 @@
-import { delay, put, takeEvery, takeLatest } from 'redux-saga/effects';
-const INCREASESAGA = 'INCREASESAGA';
-const DECREASESAGA = 'DECREASESAGA';
-const INCREASE_SAGA_ASYNC = 'INCREASE_SAGA_ASYNC';
-const DECREASE_SAGA_ASYNC = 'DECREASE_SAGA_ASYNC';
+import { delay, put, takeEvery, takeLatest } from "redux-saga/effects";
+const INCREASESAGA = "INCREASESAGA";
+const DECREASESAGA = "DECREASESAGA";
+const INCREASE_SAGA_ASYNC = "INCREASE_SAGA_ASYNC";
+const DECREASE_SAGA_ASYNC = "DECREASE_SAGA_ASYNC";
 
 export const sagaincrease = () => {
   return { type: INCREASESAGA };
