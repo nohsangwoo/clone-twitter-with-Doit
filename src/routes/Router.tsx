@@ -5,30 +5,30 @@ import {
   Switch,
   Redirect
 } from "react-router-dom";
-import authService from "fbase";
-import Auth from "../routes/Auth";
-import Navigation from "./Navigation";
-import Home from "../routes/Home";
+import Auth from "./Auth";
+import Navigation from "../components/Navigation";
+import Home from "./Home";
 import Profile from "components/Profile";
-import { customHistory } from "store/store";
+// import { customHistory } from "store/store";
+
 interface Props {
   isLoggedIn: boolean;
-  userObj: any;
+
   refreshUser: () => void;
 }
-const AppRouter = ({ isLoggedIn, userObj, refreshUser }: Props) => {
+const AppRouter = ({ isLoggedIn, refreshUser }: Props) => {
   return (
     <Router>
       {/* 로그인페이지에서는 네비게이션이 보일 필요 없으니 isLoggeIn에 의존한다 */}
-      {isLoggedIn && <Navigation userObj={userObj} />}
+      {isLoggedIn && <Navigation />}
 
       {isLoggedIn ? (
         <Switch>
           <Route exact path="/">
-            <Home userObj={userObj} />
+            <Home />
           </Route>
           <Route exact path="/profile">
-            <Profile userObj={userObj} refreshUser={refreshUser} />
+            <Profile refreshUser={refreshUser} />
           </Route>
           <Redirect from="*" to="/" />
         </Switch>

@@ -1,32 +1,32 @@
-import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { addDoc, collection, getFirestore } from "firebase/firestore";
 import {
   getStorage,
   ref,
   uploadBytesResumable,
-  getDownloadURL,
-} from 'firebase/storage';
+  getDownloadURL
+} from "firebase/storage";
+import { useSelector } from "react-redux";
+import { RootState } from "store/store";
+type Props = {};
 
-type Props = {
-  userObj: any;
-};
-
-const TweetFactory = ({ userObj }: Props) => {
-  const [tweet, setTweet] = useState('');
+const TweetFactory = (props: Props) => {
+  const [tweet, setTweet] = useState("");
   const [attachment, setAttachment] = useState<
     string | ArrayBuffer | null | undefined
-  >('');
+  >("");
   const [attachmentFB, setAttachmentFB] = useState<
     string | ArrayBuffer | null | undefined
   >(null);
+  const userInfo = useSelector((state: RootState) => state.users.userInfo);
   // Create a root reference
   const storage = getStorage();
 
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let theFile;
     const {
-      currentTarget: { files },
+      currentTarget: { files }
     } = event;
     console.log(files);
 
@@ -47,7 +47,7 @@ const TweetFactory = ({ userObj }: Props) => {
           // const base64 = reader.result;
           // console.log('base64', typeof base64);
           const result = finishedEvent.target?.result;
-          console.log('result', result);
+          console.log("result", result);
           setAttachment(result);
         };
       }
@@ -60,7 +60,7 @@ const TweetFactory = ({ userObj }: Props) => {
         reader.readAsArrayBuffer(theFile);
         reader.onloadend = (finishedEvent: ProgressEvent<FileReader>) => {
           const result = finishedEvent.target?.result;
-          console.log('result', result);
+          console.log("result", result);
           setAttachmentFB(result);
         };
       }
@@ -68,8 +68,8 @@ const TweetFactory = ({ userObj }: Props) => {
   };
 
   const clearAfterUpload = () => {
-    setTweet('');
-    setAttachment('');
+    setTweet("");
+    setAttachment("");
     setAttachmentFB(null);
   };
 
@@ -85,20 +85,20 @@ const TweetFactory = ({ userObj }: Props) => {
       // tweet upload with downloadURL(images)
       try {
         // firestore에 업로드 하는 방법(with javascript 9 version)
-        const docRef = await addDoc(collection(getFirestore(), 'tweets'), {
+        const docRef = await addDoc(collection(getFirestore(), "tweets"), {
           text: tweet,
           createdAt: Date.now(),
-          creatorId: userObj.uid,
-          attachmentURL: data?.downloadURL || '',
-          uploadPath: data?.uploadPath || '',
+          creatorId: userInfo.uid,
+          attachmentURL: data?.downloadURL || "",
+          uploadPath: data?.uploadPath || ""
         });
-        console.log('Document written with ID: ', docRef.id);
+        console.log("Document written with ID: ", docRef.id);
       } catch (err) {}
       clearAfterUpload();
     };
 
     // 업로드 경로 지정
-    const storageRef = ref(storage, `${userObj.uid}/${uuidv4()}`);
+    const storageRef = ref(storage, `${userInfo.uid}/${uuidv4()}`);
     // console.log('outsid attachment?: ', attachment);
     const uploadPath = storageRef.fullPath;
     // console.log('storageRef.fullPath: ', storageRef.fullPath);
@@ -107,15 +107,15 @@ const TweetFactory = ({ userObj }: Props) => {
     // 이미지가 없다면 그냥 트윗만 한다
 
     if (!attachmentFB) {
-      console.log('just tweet upload');
+      console.log("just tweet upload");
       uploadTweet();
       return;
     }
 
     if (attachmentFB instanceof ArrayBuffer) {
-      console.log('tweet upload with image');
+      console.log("tweet upload with image");
 
-      console.log('attachmentFB', attachmentFB);
+      console.log("attachmentFB", attachmentFB);
 
       const uploadTask = uploadBytesResumable(storageRef, attachmentFB);
 
@@ -124,19 +124,19 @@ const TweetFactory = ({ userObj }: Props) => {
       // 2. Error observer, called on failure
       // 3. Completion observer, called on successful completion
       uploadTask.on(
-        'state_changed',
+        "state_changed",
         snapshot => {
           // Observe state change events such as progress, pause, and resume
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
+          console.log("Upload is " + progress + "% done");
           switch (snapshot.state) {
-            case 'paused':
-              console.log('Upload is paused');
+            case "paused":
+              console.log("Upload is paused");
               break;
-            case 'running':
-              console.log('Upload is running');
+            case "running":
+              console.log("Upload is running");
               break;
           }
         },
@@ -147,10 +147,10 @@ const TweetFactory = ({ userObj }: Props) => {
           // Handle successful uploads on complete
           // For instance, get the download URL: https://firebasestorage.googleapis.com/...
           getDownloadURL(uploadTask.snapshot.ref).then(async downloadURL => {
-            console.log('File available at', downloadURL, uploadPath);
+            console.log("File available at", downloadURL, uploadPath);
             const data = {
               downloadURL,
-              uploadPath,
+              uploadPath
             };
             uploadTweet(data);
           });
@@ -169,7 +169,7 @@ const TweetFactory = ({ userObj }: Props) => {
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const {
-      currentTarget: { value },
+      currentTarget: { value }
     } = event;
     setTweet(value);
   };
@@ -177,7 +177,7 @@ const TweetFactory = ({ userObj }: Props) => {
   // 정리하는 부분
   const onClearAttachment = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    setAttachment('');
+    setAttachment("");
   };
 
   return (

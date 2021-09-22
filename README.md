@@ -165,3 +165,5 @@ npm i @material-ui/core @material-ui/icons @material-ui/lab @material-ui/styles
 ## lodash
 
 ## AOSINIT setup
+
+## userObj ==> userInfo로 변경 및 redux stroe에 저장 및 불러오기 적용

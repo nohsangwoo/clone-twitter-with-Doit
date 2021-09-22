@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   collection,
   getFirestore,
   onSnapshot,
   orderBy,
   query,
-  where,
-} from 'firebase/firestore';
-import Tweet from './../components/Tweet';
+  where
+} from "firebase/firestore";
+import Tweet from "./../components/Tweet";
+import TweetFactory from "components/TweetFactory";
+import { useSelector } from "react-redux";
+import { RootState } from "store/store";
 
-import TweetFactory from 'components/TweetFactory';
-
-type Props = {
-  userObj: any;
-};
-const Home = ({ userObj }: Props) => {
+type Props = {};
+const Home = (props: Props) => {
+  const userInfo = useSelector((state: RootState) => state.users.userInfo);
   const [tweets, setTweets] = useState<any>([]);
 
   // 일반적인 데이터를 데이터베이스에서 가져오기
@@ -38,15 +38,15 @@ const Home = ({ userObj }: Props) => {
     // 실시간으로 데이터를 데이터베이스에서 가져오기
     // 여기에 각종 조건 넣어두기(정렬, 조건)
     const q = query(
-      collection(getFirestore(), 'tweets'),
+      collection(getFirestore(), "tweets"),
       // where('text', '==', 'hehe')
-      orderBy('createdAt')
+      orderBy("createdAt")
     );
     const unsubscribe = onSnapshot(q, querySnapshot => {
       const newArray = querySnapshot.docs.map(doc => {
         return {
           id: doc.id,
-          ...doc.data(),
+          ...doc.data()
         };
       });
       setTweets(newArray);
@@ -59,7 +59,7 @@ const Home = ({ userObj }: Props) => {
 
   return (
     <>
-      <TweetFactory userObj={userObj} />
+      <TweetFactory />
       <div>
         {tweets.map((tweetObj: any) => {
           return (
@@ -67,7 +67,7 @@ const Home = ({ userObj }: Props) => {
               key={tweetObj.id}
               tweetObj={tweetObj}
               // 내가 쓴 tweet만 제어하기 위한 조건
-              isOwner={tweetObj.creatorId === userObj.uid}
+              isOwner={tweetObj.creatorId === userInfo.uid}
             />
           );
         })}
