@@ -27,24 +27,9 @@ function App(): JSX.Element {
     });
   }, []);
 
-  const refreshUser = () => {
-    const user = auth.currentUser;
-    if (user) {
-      dispatch(
-        userSlice.actions.setUserInfo({
-          uid: user.uid || "",
-          displayName: user.displayName || ""
-        })
-      );
-    }
-  };
   return (
     <>
-      {init ? (
-        <AppRouter isLoggedIn={isLoggedIn} refreshUser={refreshUser} />
-      ) : (
-        "initializing..."
-      )}
+      {init ? <AppRouter isLoggedIn={isLoggedIn} /> : "initializing..."}
       {/* <footer>&copy;{new Date().getFullYear()} Twitter clone</footer> */}
     </>
   );

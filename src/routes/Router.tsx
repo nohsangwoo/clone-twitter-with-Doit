@@ -9,14 +9,30 @@ import Auth from "./Auth";
 import Navigation from "../components/Navigation";
 import Home from "./Home";
 import Profile from "components/Profile";
+import { auth } from "fbase";
+import { useDispatch } from "react-redux";
+import userSlice from "store/reducers/userSlice";
 // import { customHistory } from "store/store";
 
 interface Props {
   isLoggedIn: boolean;
-
-  refreshUser: () => void;
 }
-const AppRouter = ({ isLoggedIn, refreshUser }: Props) => {
+
+const AppRouter = ({ isLoggedIn }: Props) => {
+  const dispatch = useDispatch();
+
+  const refreshUser = () => {
+    const user = auth.currentUser;
+    if (user) {
+      dispatch(
+        userSlice.actions.setUserInfo({
+          uid: user.uid || "",
+          displayName: user.displayName || ""
+        })
+      );
+    }
+  };
+
   return (
     <Router>
       {/* 로그인페이지에서는 네비게이션이 보일 필요 없으니 isLoggeIn에 의존한다 */}
