@@ -88,9 +88,6 @@ const Profile = ({ refreshUser }: Props) => {
     console.log("value: ", value);
   };
 
-  // useEffect(() => {
-  //   getMyTweet();
-  // }, []);
   return (
     <div>
       <form onSubmit={onSubmit}>

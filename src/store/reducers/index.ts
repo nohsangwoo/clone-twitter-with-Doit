@@ -7,6 +7,7 @@ import socketSlice from "./socketSlice";
 import counterSlice from "./counterSlice";
 import someOtherSlice from "./someOtherSlice";
 import userSlice from "./userSlice";
+import firebaseSlice from "./firebaseSlice";
 // import postSlice from "./postSlice";
 // import { all } from "redux-saga/effects";
 // import sagaCounter, { counterSaga } from "./sagacounter";
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   socket: socketSlice.reducer,
   counter: counterSlice.reducer,
   somesome: someOtherSlice.reducer,
-  users: userSlice.reducer
+  users: userSlice.reducer,
+  firebase: firebaseSlice.reducer
 });
 
 export default rootReducer;

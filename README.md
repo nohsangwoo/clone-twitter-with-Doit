@@ -167,3 +167,11 @@ npm i @material-ui/core @material-ui/icons @material-ui/lab @material-ui/styles
 ## AOSINIT setup
 
 ## userObj ==> userInfo로 변경 및 redux stroe에 저장 및 불러오기 적용
+
+## masonry layout 적용
+
+https://www.npmjs.com/package/react-masonry-css
+
+## limit 적용(한번에 표시하는 트윗 개수)
+
+일단 테스트용으로 5개씩 표현

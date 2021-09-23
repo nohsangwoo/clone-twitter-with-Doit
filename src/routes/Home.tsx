@@ -5,7 +5,10 @@ import {
   onSnapshot,
   orderBy,
   query,
-  where
+  limit
+  // where,
+  // startAt,
+  // startAfter
 } from "firebase/firestore";
 import Tweet from "./../components/Tweet";
 import TweetFactory from "components/TweetFactory";
@@ -15,8 +18,11 @@ import { RootState } from "store/store";
 type Props = {};
 const Home = (props: Props) => {
   const userInfo = useSelector((state: RootState) => state.users.userInfo);
+  const limitIndex = useSelector(
+    (state: RootState) => state.firebase.limitIndex
+  );
   const [tweets, setTweets] = useState<any>([]);
-
+  // const [limitIndex, setLimitIndex] = useState<number>(5);
   // 일반적인 데이터를 데이터베이스에서 가져오기
   // const getTweets = async () => {
   //   // 모든 트윗을 가져오게 하는 조건
@@ -39,9 +45,14 @@ const Home = (props: Props) => {
     // 여기에 각종 조건 넣어두기(정렬, 조건)
     const q = query(
       collection(getFirestore(), "tweets"),
-      // where('text', '==', 'hehe')
-      orderBy("createdAt")
+      // where("creatorId", "<=", userInfo.uid),
+      // where("createdAt", ">", 0),
+      orderBy("createdAt", "desc"),
+      // 다음페이지 기준
+      // startAfter(1632049101858),
+      limit(limitIndex)
     );
+
     const unsubscribe = onSnapshot(q, querySnapshot => {
       const newArray = querySnapshot.docs.map(doc => {
         return {
