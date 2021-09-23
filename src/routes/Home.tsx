@@ -5,8 +5,8 @@ import {
   onSnapshot,
   orderBy,
   query,
-  limit
-  // where,
+  limit,
+  where
   // startAt,
   // startAfter
 } from "firebase/firestore";
@@ -48,10 +48,11 @@ const Home = (props: Props) => {
     // 여기에 각종 조건 넣어두기(정렬, 조건)
     const q = query(
       collection(getFirestore(), "tweets"),
-      // where("creatorId", "<=", userInfo.uid),
-      // where("createdAt", ">", 0),
-      orderBy("createdAt", "desc"),
+      where("creatorId", "!=", userInfo.uid),
+      orderBy("creatorId", "desc"),
       // 다음페이지 기준
+      // where("createdAt", ">=", 0),
+      orderBy("createdAt", "desc"),
       // startAfter(1632049101858),
       limit(limitIndex)
     );
@@ -91,8 +92,6 @@ const Home = (props: Props) => {
       >
         load more ...
       </button>
-
-
     </>
   );
 };

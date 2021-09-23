@@ -10,7 +10,10 @@ const Navigation = (props: Props) => {
     <nav>
       <ul>
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/">All tweets</Link>
+        </li>
+        <li>
+          <Link to="/myroom">{`${userInfo.displayName}의 Tweets`}</Link>
         </li>
         <li>
           <Link to="/profile">{`${userInfo.displayName}의 Profile`}</Link>

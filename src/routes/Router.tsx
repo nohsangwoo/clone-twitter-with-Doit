@@ -12,6 +12,7 @@ import Profile from "components/Profile";
 import { auth } from "fbase";
 import { useDispatch } from "react-redux";
 import userSlice from "store/reducers/userSlice";
+import MyRoom from "./MyRoom";
 // import { customHistory } from "store/store";
 
 interface Props {
@@ -42,6 +43,9 @@ const AppRouter = ({ isLoggedIn }: Props) => {
         <Switch>
           <Route exact path="/">
             <Home />
+          </Route>
+          <Route exact path="/myroom">
+            <MyRoom />
           </Route>
           <Route exact path="/profile">
             <Profile refreshUser={refreshUser} />
