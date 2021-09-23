@@ -14,6 +14,9 @@ const firebaseSlice = createSlice({
   reducers: {
     increaseLimitIndex(state, action) {
       state.limitIndex = state.limitIndex + action.payload;
+    },
+    resetLimitIndex(state) {
+      state.limitIndex = 5;
     }
   }
 });

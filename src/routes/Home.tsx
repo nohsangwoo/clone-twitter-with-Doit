@@ -12,8 +12,9 @@ import {
 } from "firebase/firestore";
 import Tweet from "./../components/Tweet";
 import TweetFactory from "components/TweetFactory";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "store/store";
+import firebaseSlice from "store/reducers/firebaseSlice";
 
 type Props = {};
 const Home = (props: Props) => {
@@ -22,6 +23,8 @@ const Home = (props: Props) => {
     (state: RootState) => state.firebase.limitIndex
   );
   const [tweets, setTweets] = useState<any>([]);
+
+  const dispatch = useDispatch();
   // const [limitIndex, setLimitIndex] = useState<number>(5);
   // 일반적인 데이터를 데이터베이스에서 가져오기
   // const getTweets = async () => {
@@ -66,7 +69,7 @@ const Home = (props: Props) => {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [limitIndex]);
 
   return (
     <>
@@ -83,6 +86,13 @@ const Home = (props: Props) => {
           );
         })}
       </div>
+      <button
+        onClick={() => dispatch(firebaseSlice.actions.increaseLimitIndex(5))}
+      >
+        load more ...
+      </button>
+
+
     </>
   );
 };

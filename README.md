@@ -175,3 +175,6 @@ https://www.npmjs.com/package/react-masonry-css
 ## limit 적용(한번에 표시하는 트윗 개수)
 
 일단 테스트용으로 5개씩 표현
+
+## for infinite scroll
+infinite scroll을 위한 기능 구현 버튼형식으로 구현 완료
