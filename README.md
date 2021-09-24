@@ -183,3 +183,8 @@ infinite scroll을 위한 기능 구현 버튼형식으로 구현 완료
 ## getMyStream을 redux saga로 처리
 
 ## getMyDevices를 redux saga로 처리해야함
+
+## react-slick
+
+- npm i react-slic
+- npm i --save-dev @types/react-slic
