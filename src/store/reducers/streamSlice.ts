@@ -32,6 +32,9 @@ const streamSlice = createSlice({
   name: "stream",
   initialState,
   reducers: {
+    getMyStreamSagaTrigger() {
+      console.log("sagaTrigger activate!!");
+    },
     setMyStream(state, action) {
       state.myStream = action.payload;
     },
