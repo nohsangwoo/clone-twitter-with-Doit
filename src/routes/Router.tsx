@@ -5,14 +5,14 @@ import {
   Switch,
   Redirect
 } from "react-router-dom";
-import Auth from "./Auth";
+import Auth from "../pages/Auth/Auth";
 import Navigation from "../components/Navigation";
-import Home from "./Home";
+import Home from "../pages/Home/Home";
+import MyRoom from "../pages/MyRoom/MyRoom";
 import Profile from "components/Profile";
 import { auth } from "fbase";
 import { useDispatch } from "react-redux";
 import userSlice from "store/reducers/userSlice";
-import MyRoom from "./MyRoom";
 // import { customHistory } from "store/store";
 
 interface Props {

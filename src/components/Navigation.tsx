@@ -13,7 +13,7 @@ const Navigation = (props: Props) => {
           <Link to="/">All tweets</Link>
         </li>
         <li>
-          <Link to="/myroom">{`${userInfo.displayName}의 Tweets`}</Link>
+          <Link to="/myroom">{`myRoom`}</Link>
         </li>
         <li>
           <Link to="/profile">{`${userInfo.displayName}의 Profile`}</Link>

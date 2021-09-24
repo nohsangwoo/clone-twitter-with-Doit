@@ -10,7 +10,7 @@ import {
   // startAt,
   // startAfter
 } from "firebase/firestore";
-import Tweet from "./../components/Tweet";
+import Tweet from "../../components/Tweet";
 import TweetFactory from "components/TweetFactory";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "store/store";
@@ -59,8 +59,8 @@ const Home = (props: Props) => {
     // 여기에 각종 조건 넣어두기(정렬, 조건)
     const q = query(
       collection(getFirestore(), "tweets"),
-      where("creatorId", "!=", userInfo.uid),
-      orderBy("creatorId", "desc"),
+      // where("creatorId", "!=", userInfo.uid),
+      // orderBy("creatorId", "desc"),
       // 다음페이지 기준
       // where("createdAt", ">=", 0),
       orderBy("createdAt", "desc"),
