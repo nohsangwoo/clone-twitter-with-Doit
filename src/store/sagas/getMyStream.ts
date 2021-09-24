@@ -5,17 +5,19 @@ import { createPeerConnection } from "components/utils/webRTC/webRTCHandler";
 import streamSlice from "store/reducers/streamSlice";
 
 // -------- 현재 사용되고있는 camera또는 audio input관련 current information을 저장하는 작업 --------
+type saveDevicesInfoProps = {
+  track: any;
+  getSelectedDeviceLabelActionFuncWithRedux: any;
+  deviceKind: string;
+  getSelectedDeviceIdActionFuncWithRedux: any;
+};
+
 export const saveDevicesInfo = async ({
   track,
   getSelectedDeviceLabelActionFuncWithRedux,
   deviceKind,
   getSelectedDeviceIdActionFuncWithRedux
-}: {
-  track: any;
-  getSelectedDeviceLabelActionFuncWithRedux: any;
-  deviceKind: string;
-  getSelectedDeviceIdActionFuncWithRedux: any;
-}): Promise<void> => {
+}: saveDevicesInfoProps): Promise<void> => {
   const getCurrentDeviceId = async (
     deviceKind: string,
     currentDeviceLabel: string
@@ -98,8 +100,11 @@ function* watchGetMyStream() {
     // redux를 통해 캐싱하고 그걸 기반으로 내 stream이 제어되기 때문에
     // 해당 stream저장소에 저장
     // await thunkAPI.dispatch(streamSlice.actions.setMyStream(myOriginStream));
-    createPeerConnection(myOriginStream);
+    yield createPeerConnection(myOriginStream);
     console.log("createPeerConnection!!");
+
+    yield put(streamSlice.actions.setMyStream(myOriginStream));
+    console.log("save myOriginStream in redux");
   });
 }
 

@@ -70,6 +70,8 @@ const MyStreamVideoViewer = (props: Props): JSX.Element => {
 
   const myStream = useSelector((state: RootState) => state.streams.myStream);
 
+  console.log("myStream", myStream);
+
   useEffect(() => {
     try {
       dispatch(streamSlice.actions.getMyStreamSagaTrigger());
