@@ -5,6 +5,7 @@ import * as wss from "components/utils/wssConnection/wssConnection";
 import streamSlice from "store/reducers/streamSlice";
 import styled from "styled-components";
 import UserList from "./components/UserList";
+import ControlPanel from "components/utils/mediaUtils/ControlPanel";
 
 const UserListWrapper = styled.div`
   width: 100%;
@@ -22,6 +23,8 @@ const MyRoom = () => {
   }, []);
   return (
     <div>
+      <ControlPanel />
+
       <UserListWrapper>
         <UserList />
       </UserListWrapper>

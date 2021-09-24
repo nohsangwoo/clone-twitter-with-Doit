@@ -25,6 +25,7 @@ export const saveDevicesInfo = async ({
     let result;
     const devices = await navigator.mediaDevices.enumerateDevices();
 
+    console.log("devices,", devices);
     const getAllDevices = devices.filter(device => device.kind === deviceKind);
 
     const getSpecificDeviceInfo = getAllDevices.filter((device: any) => {
@@ -39,6 +40,7 @@ export const saveDevicesInfo = async ({
 
   if (track?.label) {
     // video/audio input 관련 인덱싱을위한 장치 label을 리덕스 스토어에 저장
+    console.log("track.label", track.label);
     put(getSelectedDeviceLabelActionFuncWithRedux(track.label));
 
     // 현재 연결된 모든 비디오출력/오디오입력 장치를 찾고 위에서 찾은 label을 기준으로
@@ -50,6 +52,7 @@ export const saveDevicesInfo = async ({
 
     // 리덕스 저장소에 current DeviceId를 저장하는 구간
     if (currentDeviceId) {
+      console.log("currentDeviceId", currentDeviceId);
       put(getSelectedDeviceIdActionFuncWithRedux(currentDeviceId));
     }
   }
@@ -61,7 +64,7 @@ function* watchGetMyStream() {
     const myOriginStream: MediaStream =
       yield navigator.mediaDevices.getUserMedia(Constrains);
 
-    console.log("get myStream!");
+    console.log("get myStream!", myOriginStream);
 
     // 처음 스트림 불러오고 특정이슈때문에 비디오태그에 소스로 붙여지기 전 audio는 꺼진상태로 둔다
     yield myOriginStream.getAudioTracks().forEach((track: any) => {

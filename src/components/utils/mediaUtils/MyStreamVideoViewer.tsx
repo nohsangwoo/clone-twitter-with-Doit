@@ -86,6 +86,8 @@ const MyStreamVideoViewer = (props: Props): JSX.Element => {
     }
   }, []);
   useEffect(() => {
+    console.log("rerender for myStream", myStream);
+
     try {
       if (myStream instanceof MediaStream) {
         userVideo.current.srcObject = myStream;
