@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getMyStream } from "../actions/streamActions";
+
 type InitialStateType = {
   myStream: MediaStream;
   localStream: MediaStream;
@@ -56,26 +56,7 @@ const streamSlice = createSlice({
     resetOtherStream(state) {
       state.otherStream = [];
     }
-  },
-  extraReducers: builder =>
-    builder
-      .addCase(getMyStream.pending, (state, action) => {})
-      .addCase(getMyStream.fulfilled, (state, action) => {
-        state.myStream = action.payload;
-        console.log("success the streaAction's getStream!");
-        console.log("action", action.payload);
-      })
-      .addCase(getMyStream.rejected, (state, action) => {
-        console.log("fail the streaAction's getStream!");
-      })
-      .addMatcher(
-        action => {
-          return action.type.includes("/pending");
-        },
-        (state, action) => {
-          console.log("add matcher stream, pending");
-        }
-      )
+  }
 });
 
 export default streamSlice;

@@ -44,6 +44,9 @@ const devicesSlice = createSlice({
   name: "devices",
   initialState,
   reducers: {
+    getMyDevicesSagaTrigger() {
+      console.log("getMyDevice Trigger activate");
+    },
     // get camera device
     getVideoDevices(state, action) {
       state.videoDevices = action.payload;

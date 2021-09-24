@@ -5,14 +5,10 @@ import styled from "styled-components";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import devicesSlice from "../../../store/reducers/devicesSlice";
-import { getMyStream } from "store/actions/streamActions";
-
 import { useHistory, useLocation } from "react-router-dom";
-
 import { RouterPath } from "../routerPath";
 import { IconButton, Tooltip } from "@material-ui/core";
 import Fullscreen from "@material-ui/icons/Fullscreen";
-import * as webRTCHandler from "../webRTC/webRTCHandler";
 import * as wss from "../wssConnection/wssConnection";
 
 import { RootState } from "store/store";
@@ -76,8 +72,7 @@ const MyStreamVideoViewer = (props: Props): JSX.Element => {
 
   useEffect(() => {
     try {
-      dispatch(getMyStream());
-      // webRTCHandler.getMyStream();
+      dispatch(streamSlice.actions.getMyStreamSagaTrigger());
 
       dispatch(getMyDevices());
 

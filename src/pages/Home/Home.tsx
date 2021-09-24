@@ -16,9 +16,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "store/store";
 import firebaseSlice from "store/reducers/firebaseSlice";
 
-import * as wss from "components/utils/wssConnection/wssConnection";
-import { getMyStream } from "store/actions/streamActions";
-import { getMyDevices } from "store/actions/devicesActions";
 type Props = {};
 const Home = (props: Props) => {
   const userInfo = useSelector((state: RootState) => state.users.userInfo);
@@ -45,14 +42,7 @@ const Home = (props: Props) => {
   //     });
   //   });
   // };
-  // useEffect(() => {
-  //   dispatch(getMyStream());
-  //   // webRTCHandler.getMyStream();
 
-  //   dispatch(getMyDevices());
-
-  //   wss.connectWithWebSocket();
-  // }, []);
   useEffect(() => {
     // getTweets();
     // 실시간으로 데이터를 데이터베이스에서 가져오기

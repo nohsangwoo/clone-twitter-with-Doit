@@ -1,4 +1,4 @@
-import { delay, all, fork, put, takeLatest } from "redux-saga/effects";
+import { all, fork, put, takeLatest } from "redux-saga/effects";
 import devicesSlice from "store/reducers/devicesSlice";
 import { Constrains } from "../api/webRTC_API";
 import { createPeerConnection } from "components/utils/webRTC/webRTCHandler";
