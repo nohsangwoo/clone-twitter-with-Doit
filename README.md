@@ -177,4 +177,9 @@ https://www.npmjs.com/package/react-masonry-css
 일단 테스트용으로 5개씩 표현
 
 ## for infinite scroll
+
 infinite scroll을 위한 기능 구현 버튼형식으로 구현 완료
+
+## getMyStream을 redux saga로 처리
+
+## getMyDevices를 redux saga로 처리해야함
