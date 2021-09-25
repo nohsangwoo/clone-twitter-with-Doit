@@ -54,6 +54,8 @@ const Controller = () => {
 
   const handleJoinRoom = useCallback(() => {
     let roomId = uuidV1();
+
+    roomId = "nohsangwoo";
     console.log("uuid", roomId);
 
     const data: HandlieJoinRoomType = {

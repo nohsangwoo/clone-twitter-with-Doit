@@ -7,6 +7,7 @@ import styled from "styled-components";
 import UserList from "./components/UserList";
 import ControlPanel from "components/utils/mediaUtils/ControlPanel";
 import MediaControlContainer from "components/containers/MediaControlContainer";
+import Controller from "components/utils/controller/Controller";
 
 const UserListWrapper = styled.div`
   width: 100%;
@@ -32,6 +33,7 @@ const MyRoom = () => {
   return (
     <div>
       <ControlPanel />
+      <Controller />
       <UserListWrapper>
         <UserList />
       </UserListWrapper>

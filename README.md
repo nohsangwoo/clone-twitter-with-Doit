@@ -188,3 +188,7 @@ infinite scroll을 위한 기능 구현 버튼형식으로 구현 완료
 
 - npm i react-slic
 - npm i --save-dev @types/react-slic
+
+## connect to eachother
+
+- use by webRTC
