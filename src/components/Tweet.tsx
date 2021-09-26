@@ -27,9 +27,11 @@ const TweetBGHolder = styled.div<{ getHeight: string; bgurl: string }>`
   background-position: center center;
   transition: all 0.5s;
   border-radius: 13px;
-
   &:hover {
     transform: scale(1.2);
+  }
+  &:active {
+    transform: scale(0.98);
   }
 `;
 

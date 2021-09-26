@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
+import styled from "styled-components";
+
 interface Props {}
 const Navigation = (props: Props) => {
   const userInfo = useSelector((state: RootState) => state.users.userInfo);
@@ -12,9 +14,7 @@ const Navigation = (props: Props) => {
         <li>
           <Link to="/">All tweets</Link>
         </li>
-        <li>
-          <Link to="/myroom">{`myRoom`}</Link>
-        </li>
+
         <li>
           <Link to="/profile">{`${userInfo.displayName}의 Profile`}</Link>
         </li>

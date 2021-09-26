@@ -6,7 +6,6 @@ import {
   orderBy,
   query,
   limit,
-  where,
   deleteDoc,
   doc,
   Unsubscribe
@@ -31,7 +30,31 @@ const MarsonryWrapper = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  border: 1px solid red;
+`;
+
+const LoadMoreWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+`;
+
+const LoadMoreBTN = styled.div`
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  height: auto;
+  min-width: 130px;
+  padding: 5px;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 55%);
+  transition: all 0.5s;
+  &:hover {
+    transform: scale(1.08);
+  }
+  &:active {
+    transform: scale(0.98);
+  }
 `;
 
 type tweetObjType = {
@@ -43,10 +66,10 @@ type tweetObjType = {
   attachmentURL: string;
   uploadPath: string;
 };
+
 type Props = {};
 
 const Home = (props: Props) => {
-  const userInfo = useSelector((state: RootState) => state.users.userInfo);
   const limitIndex = useSelector(
     (state: RootState) => state.firebase.limitIndex
   );
@@ -142,6 +165,12 @@ const Home = (props: Props) => {
       unsubscribe();
     };
   }, [limitIndex]);
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
 
   const breakpointColumnsObj = {
     default: 5,
@@ -272,12 +301,13 @@ const Home = (props: Props) => {
           {tweetsPresent}
         </Masonry>
       </MarsonryWrapper>
-
-      <button
-        onClick={() => dispatch(firebaseSlice.actions.increaseLimitIndex(5))}
-      >
-        load more ...
-      </button>
+      <LoadMoreWrapper>
+        <LoadMoreBTN
+          onClick={() => dispatch(firebaseSlice.actions.increaseLimitIndex(5))}
+        >
+          more ...
+        </LoadMoreBTN>
+      </LoadMoreWrapper>
     </HomeContainer>
   );
 };
