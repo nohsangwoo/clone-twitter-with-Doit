@@ -65,7 +65,7 @@ const MyRoom = (props: Props) => {
         userType: "Client"
       };
 
-      console.log("Join room Button activated");
+      console.log("Join room Button activated", roomId);
       dispatch(socketSlice.actions.getRoomHostInfo(data));
       wss.joinRoom({ roomId: roomId });
     },
