@@ -8,7 +8,7 @@ import UserList from "./components/UserList";
 import ControlPanel from "components/utils/mediaUtils/ControlPanel";
 import MediaControlContainer from "components/containers/MediaControlContainer";
 import Controller from "components/utils/controller/Controller";
-import { useLocation } from "react-router-dom";
+import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
 import { RootState } from "store/store";
 import socketSlice from "store/reducers/socketSlice";
 import { deleteDoc, doc, getFirestore } from "firebase/firestore";
@@ -34,6 +34,7 @@ type HandlieJoinRoomType = {
 interface Props {}
 
 const MyRoom = (props: Props) => {
+  const history = useHistory();
   const location = useLocation<locationStateType>();
   const [chatOpen, setChatOpen] = useState(false);
   const socketId = useSelector((state: RootState) => state?.socket?.socket?.id);
@@ -103,6 +104,12 @@ const MyRoom = (props: Props) => {
       })
       .finally(() => console.log("finally"));
   };
+
+  useEffect(() => {
+    if (!location?.state?.roomId) {
+      history.push("/");
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(streamSlice.actions.getMyStreamSagaTrigger());
