@@ -1,7 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+type myTweetType = {
+  docId: string;
+  text: string;
+  createdAt: string;
+  creatorId: string;
+  roomId: string;
+  attachmentURL: string;
+  uploadPath: string;
+};
 type InitialState = {
-  myTweet: any;
+  myTweet: myTweetType | null;
 };
 
 const initialState: InitialState = {

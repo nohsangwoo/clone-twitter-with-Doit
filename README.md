@@ -198,3 +198,9 @@ infinite scroll을 위한 기능 구현 버튼형식으로 구현 완료
 and then waiting other person
 
 ## 트윗 생성과 동시에 영상통화를 위한 room 생성
+
+## tweetFactory에서 history.push 할때 home 스냅샷 쿼리의 unsubscribe 안해줘서 memory leak 일어남 나중에 정리 해주기
+
+## 웹브라우저 종료시 만들어진 방을(tweet)을 지우는 쿼리 생성하기
+
+## tweet생성과 동시에 만들어진 방에 다른 유저가 클릭해서 영상통화하기

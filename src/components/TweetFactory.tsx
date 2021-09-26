@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
 import {
@@ -7,16 +7,17 @@ import {
   uploadBytesResumable,
   getDownloadURL
 } from "firebase/storage";
+
+// import {} from "firebase/firebase/store"
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "store/store";
 import { useHistory } from "react-router-dom";
-import * as wss from "components/utils/wssConnection/wssConnection";
-import socketSlice from "store/reducers/socketSlice";
 import tweetSlice from "store/reducers/tweetSlice";
 
-export type locationStateType = {
+type locationStateType = {
   roomId: string;
 };
+
 type Props = {};
 
 const TweetFactory = (props: Props) => {
@@ -129,7 +130,6 @@ const TweetFactory = (props: Props) => {
           // search: '?query=abc',
           state: locationState
         });
-        // handleJoinRoom(uuid);
       } catch (err) {}
       clearAfterUpload();
     };

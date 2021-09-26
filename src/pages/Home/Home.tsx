@@ -6,7 +6,10 @@ import {
   orderBy,
   query,
   limit,
-  where
+  where,
+  deleteDoc,
+  doc,
+  Unsubscribe
   // startAt,
   // startAfter
 } from "firebase/firestore";
@@ -15,8 +18,7 @@ import TweetFactory from "components/TweetFactory";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "store/store";
 import firebaseSlice from "store/reducers/firebaseSlice";
-import MyRoom from "pages/MyRoom";
-import { useHistory } from "react-router-dom";
+import { deleteObject, getStorage, ref } from "firebase/storage";
 
 type Props = {};
 const Home = (props: Props) => {
@@ -25,8 +27,55 @@ const Home = (props: Props) => {
     (state: RootState) => state.firebase.limitIndex
   );
   const [tweets, setTweets] = useState<any>([]);
-  const history = useHistory();
+  const [error, setError] = useState<Error>();
+
   const dispatch = useDispatch();
+  const myTweetContents = useSelector(
+    (state: RootState) => state.tweets.myTweet
+  );
+
+  useEffect(() => {
+    console.log("myTweetContents", myTweetContents);
+  }, [myTweetContents]);
+
+  const onDelete = async (docId: string, uploadPath: string) => {
+    console.log("delete doc id", myTweetContents?.docId);
+    const ok = window.confirm("삭제 하시겠습니까?");
+    if (ok) {
+      // implement delete function
+      //   console.log('tweetObj', tweetObj.id);
+      //   doc("컬렉션이름", "문서이름")
+      await deleteDoc(doc(getFirestore(), "tweets", docId))
+        .then(() => {
+          console.log("Delete succeeded!");
+
+          if (uploadPath !== "") {
+            console.log("image delete progress!");
+
+            const storage = getStorage();
+
+            // Create a reference to the file to delete
+            const desertRef = ref(storage, uploadPath);
+
+            // Delete the file
+            deleteObject(desertRef)
+              .then(() => {
+                // File deleted successfully
+                console.log("File deleted successfully");
+              })
+              .catch(error => {
+                // Uh-oh, an error occurred!
+                console.log("Uh-oh, an error occurred!");
+              });
+          }
+        })
+        .catch(error => {
+          setError(error.message);
+        })
+        .finally(() => console.log("finally"));
+    }
+  };
+
   // const [limitIndex, setLimitIndex] = useState<number>(5);
   // 일반적인 데이터를 데이터베이스에서 가져오기
   // const getTweets = async () => {
@@ -44,14 +93,25 @@ const Home = (props: Props) => {
   //     });
   //   });
   // };
+  // useEffect(() => {
+  //   console.log("myTweetContents,", myTweetContents);
+  // }, [myTweetContents]);
+
   useEffect(() => {
     // 웹 브러우저 윈도우 창 종료 직전 이벤트
-    window.addEventListener("beforeunload", () =>
-      alert("브라우저 종료직전 알랏")
-    );
+    window.addEventListener("beforeunload", event => {
+      event.preventDefault();
+      if (myTweetContents?.docId) {
+        onDelete(myTweetContents?.docId, myTweetContents.uploadPath);
+      }
+      alert("브라우저 종료직전 알랏");
+    });
 
     // 웹 브라우저 윈도우 창 종료 이벤트
-    window.addEventListener("unload", () => alert("브라우저 종료됨"));
+    window.addEventListener("unload", event => {
+      event.preventDefault();
+      alert("브라우저 종료됨");
+    });
   }, []);
 
   useEffect(() => {
@@ -69,7 +129,7 @@ const Home = (props: Props) => {
       limit(limitIndex)
     );
     // docRef.id
-    const unsubscribe = onSnapshot(q, querySnapshot => {
+    const unsubscribe: Unsubscribe = onSnapshot(q, querySnapshot => {
       const newArray = querySnapshot.docs.map(doc => {
         return {
           id: doc.id,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   deleteDoc,
   getFirestore,
@@ -7,14 +7,52 @@ import {
   //   setDoc,
 } from "firebase/firestore";
 import { deleteObject, getStorage, ref } from "firebase/storage";
+import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "store/store";
+import socketSlice from "store/reducers/socketSlice";
+import * as wss from "components/utils/wssConnection/wssConnection";
+import { useHistory } from "react-router-dom";
+const TweetContainer = styled.div`
+  cursor: pointer;
+  transition: 0.5s all;
+  &:active {
+    transform: scale(0.9);
+  }
+`;
+
+type HandlieJoinRoomType = {
+  socketId: string;
+  roomId: string;
+  counselType: string;
+  userType: string;
+};
+
+type locationStateType = {
+  roomId: string;
+};
+
+type tweetObjType = {
+  id: string;
+  text: string;
+  createdAt: string;
+  creatorId: string;
+  roomId: string;
+  attachmentURL: string;
+  uploadPath: string;
+};
 type Props = {
-  tweetObj: any;
+  tweetObj: tweetObjType;
   isOwner: boolean;
 };
 const Tweet = ({ tweetObj, isOwner }: Props) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const [error, setError] = useState<Error>();
   const [editing, setEditing] = useState<boolean>(false);
   const [newTweet, setNewTweet] = useState<string>("");
+  const socketId = useSelector((state: RootState) => state?.socket?.socket?.id);
+
   const onDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log("delete doc id", tweetObj.id);
     const ok = window.confirm("삭제 하시겠습니까?");
@@ -77,9 +115,21 @@ const Tweet = ({ tweetObj, isOwner }: Props) => {
     setEditing(false);
   };
 
+  const handleConnectRoom = () => {
+    console.log(tweetObj);
+
+    const locationState: locationStateType = { roomId: tweetObj.roomId };
+    history.push({
+      pathname: "/myRoom",
+      // search: '?query=abc',
+      state: locationState
+    });
+  };
+
   return (
-    <div
+    <TweetContainer
       style={{ border: "1px solid black", margin: "10px 0", padding: "10px" }}
+      onClick={handleConnectRoom}
     >
       {editing ? (
         <>
@@ -108,7 +158,7 @@ const Tweet = ({ tweetObj, isOwner }: Props) => {
           )}
         </>
       )}
-    </div>
+    </TweetContainer>
   );
 };
 

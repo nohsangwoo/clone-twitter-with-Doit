@@ -25,7 +25,7 @@ const VideoContentWrapper = styled.div`
 
 const ClientViewBox = () => {
   const otherStream = useSelector(
-    (state: RootStateOrAny) => state.streams.otherStream
+    (state: RootState) => state.streams.otherStream
   );
   const globalMutedForAllVideoTag = useSelector(
     (state: RootState) => state.devices.globalMutedForAllVideoTag

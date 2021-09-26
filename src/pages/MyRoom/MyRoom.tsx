@@ -11,8 +11,10 @@ import Controller from "components/utils/controller/Controller";
 import { useLocation } from "react-router-dom";
 import { RootState } from "store/store";
 import socketSlice from "store/reducers/socketSlice";
-import { locationStateType } from "components/TweetFactory";
 
+type locationStateType = {
+  roomId: string;
+};
 const UserListWrapper = styled.div`
   width: 100%;
   position: absolute;
@@ -33,6 +35,9 @@ const MyRoom = (props: Props) => {
   const location = useLocation<locationStateType>();
   const [chatOpen, setChatOpen] = useState(false);
   const socketId = useSelector((state: RootState) => state?.socket?.socket?.id);
+  const otherStream = useSelector(
+    (state: RootState) => state.streams.otherStream
+  );
 
   const setChatHandler = () => {
     setChatOpen(!chatOpen);
@@ -57,18 +62,25 @@ const MyRoom = (props: Props) => {
       dispatch(socketSlice.actions.getRoomHostInfo(data));
       wss.joinRoom({ roomId: roomId });
     },
-    [socketId]
+
+    [socketId, dispatch]
   );
 
   useEffect(() => {
     dispatch(streamSlice.actions.getMyStreamSagaTrigger());
     dispatch(getMyDevices());
     wss.connectWithWebSocket();
+  }, []);
+
+  useEffect(() => {
     if (location?.state?.roomId) {
-      console.log("location state", location.state.roomId);
+      console.log(
+        "location state 이 존재하니 자동으로 방접속",
+        location.state.roomId
+      );
       handleJoinRoom(location.state.roomId);
     }
-  }, []);
+  }, [otherStream]);
   return (
     <div>
       <ControlPanel />
