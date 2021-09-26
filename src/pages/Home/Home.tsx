@@ -146,7 +146,8 @@ const Home = (props: Props) => {
   const breakpointColumnsObj = {
     default: 5,
     1200: 4,
-    750: 2,
+    1080: 3,
+    815: 2,
     550: 1
   };
 
@@ -157,7 +158,8 @@ const Home = (props: Props) => {
       createdAt: "03019293",
       creatorId: "0",
       roomId: "room0",
-      attachmentURL: "",
+      attachmentURL:
+        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp1.jpg?alt=media&token=e9193e29-7521-41c1-bc2a-a633fd546417",
       uploadPath: ""
     },
     {
@@ -166,7 +168,8 @@ const Home = (props: Props) => {
       createdAt: "03019293",
       creatorId: "1",
       roomId: "room1",
-      attachmentURL: "",
+      attachmentURL:
+        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp2.jpg?alt=media&token=9f222b46-faf8-42b8-8e53-0bff44721d4a",
       uploadPath: ""
     },
     {
@@ -175,7 +178,8 @@ const Home = (props: Props) => {
       createdAt: "03019293",
       creatorId: "2",
       roomId: "room2",
-      attachmentURL: "",
+      attachmentURL:
+        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp3.jpg?alt=media&token=a1e3a287-2c0d-4bb3-9440-801136f7b370",
       uploadPath: ""
     },
     {
@@ -184,7 +188,8 @@ const Home = (props: Props) => {
       createdAt: "03019293",
       creatorId: "3",
       roomId: "room3",
-      attachmentURL: "",
+      attachmentURL:
+        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp4.jpg?alt=media&token=610cf30d-4464-4565-abdf-af6beab79f96",
       uploadPath: ""
     },
     {
@@ -193,7 +198,8 @@ const Home = (props: Props) => {
       createdAt: "03019293",
       creatorId: "4",
       roomId: "room4",
-      attachmentURL: "",
+      attachmentURL:
+        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp5.jpg?alt=media&token=b47bf9cc-5fa6-4644-8a04-033eded2329b",
       uploadPath: ""
     },
     {
@@ -202,7 +208,8 @@ const Home = (props: Props) => {
       createdAt: "03019293",
       creatorId: "5",
       roomId: "room5",
-      attachmentURL: "",
+      attachmentURL:
+        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp6.jpg?alt=media&token=4e9ebbc7-eb03-42df-bcf1-53cf2839ce01",
       uploadPath: ""
     },
     {
@@ -211,7 +218,8 @@ const Home = (props: Props) => {
       createdAt: "03019293",
       creatorId: "6",
       roomId: "room6",
-      attachmentURL: "",
+      attachmentURL:
+        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp7.jpg?alt=media&token=bc3d5644-5d1b-4376-b182-1167e74aa75e",
       uploadPath: ""
     },
     {
@@ -220,7 +228,8 @@ const Home = (props: Props) => {
       createdAt: "03019293",
       creatorId: "7",
       roomId: "room7",
-      attachmentURL: "",
+      attachmentURL:
+        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp8.jpg?alt=media&token=4a6be246-2fba-43fa-8d48-176bb4874f39",
       uploadPath: ""
     },
     {
@@ -229,7 +238,8 @@ const Home = (props: Props) => {
       createdAt: "03019293",
       creatorId: "8",
       roomId: "room8",
-      attachmentURL: "",
+      attachmentURL:
+        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp9.jpg?alt=media&token=68a5f820-591b-49b7-9234-98ecc79dfdf4",
       uploadPath: ""
     }
   ];
