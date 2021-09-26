@@ -35,6 +35,25 @@ const TweetBGHolder = styled.div<{ getHeight: string; bgurl: string }>`
   }
 `;
 
+const ButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 5px;
+`;
+const ActiveButton = styled.button`
+  margin-left: 3px;
+  background: white;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid black;
+  border-radius: 5px;
+  transition: all 0.5s;
+
+  &:active {
+    transform: scale(0.95);
+  }
+`;
 const TweetContents = styled.div`
   display: flex;
   flex-direction: column;
@@ -176,10 +195,10 @@ const Tweet = ({ tweetObj, isOwner, getHeight }: Props) => {
           <>
             <div>{tweetObj.text}</div>
             {isOwner && (
-              <>
-                <button onClick={onDelete}>Delete Tweet</button>
-                <button onClick={toggleEditing}>Edit Tweet</button>
-              </>
+              <ButtonWrapper>
+                <ActiveButton onClick={toggleEditing}>Edit</ActiveButton>
+                <ActiveButton onClick={onDelete}>Delete</ActiveButton>
+              </ButtonWrapper>
             )}
           </>
         )}
