@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   deleteDoc,
   getFirestore,
   doc,
-  updateDoc,
+  updateDoc
   //   setDoc,
-} from 'firebase/firestore';
-import { deleteObject, getStorage, ref } from 'firebase/storage';
+} from "firebase/firestore";
+import { deleteObject, getStorage, ref } from "firebase/storage";
 type Props = {
   tweetObj: any;
   isOwner: boolean;
@@ -14,19 +14,20 @@ type Props = {
 const Tweet = ({ tweetObj, isOwner }: Props) => {
   const [error, setError] = useState<Error>();
   const [editing, setEditing] = useState<boolean>(false);
-  const [newTweet, setNewTweet] = useState<string>('');
+  const [newTweet, setNewTweet] = useState<string>("");
   const onDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    const ok = window.confirm('삭제 하시겠습니까?');
+    console.log("delete doc id", tweetObj.id);
+    const ok = window.confirm("삭제 하시겠습니까?");
     if (ok) {
       // implement delete function
       //   console.log('tweetObj', tweetObj.id);
       //   doc("컬렉션이름", "문서이름")
-      await deleteDoc(doc(getFirestore(), 'tweets', tweetObj.id))
+      await deleteDoc(doc(getFirestore(), "tweets", tweetObj.id))
         .then(() => {
-          console.log('Delete succeeded!');
+          console.log("Delete succeeded!");
 
-          if (tweetObj.uploadPath !== '') {
-            console.log('image delete progress!');
+          if (tweetObj.uploadPath !== "") {
+            console.log("image delete progress!");
 
             const storage = getStorage();
 
@@ -37,18 +38,18 @@ const Tweet = ({ tweetObj, isOwner }: Props) => {
             deleteObject(desertRef)
               .then(() => {
                 // File deleted successfully
-                console.log('File deleted successfully');
+                console.log("File deleted successfully");
               })
               .catch(error => {
                 // Uh-oh, an error occurred!
-                console.log('Uh-oh, an error occurred!');
+                console.log("Uh-oh, an error occurred!");
               });
           }
         })
         .catch(error => {
           setError(error.message);
         })
-        .finally(() => console.log('finally'));
+        .finally(() => console.log("finally"));
     }
   };
 
@@ -58,7 +59,7 @@ const Tweet = ({ tweetObj, isOwner }: Props) => {
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
-      currentTarget: { value },
+      currentTarget: { value }
     } = event;
 
     setNewTweet(value);
@@ -69,16 +70,16 @@ const Tweet = ({ tweetObj, isOwner }: Props) => {
     console.log(tweetObj.id, newTweet);
     // Create an initial document to update.
     // getFirestore(), 컬렉션이름, 도큐먼트이름
-    const frankDocRef = doc(getFirestore(), 'tweets', tweetObj.id);
+    const frankDocRef = doc(getFirestore(), "tweets", tweetObj.id);
     await updateDoc(frankDocRef, {
-      text: newTweet,
+      text: newTweet
     });
     setEditing(false);
   };
 
   return (
     <div
-      style={{ border: '1px solid black', margin: '10px 0', padding: '10px' }}
+      style={{ border: "1px solid black", margin: "10px 0", padding: "10px" }}
     >
       {editing ? (
         <>

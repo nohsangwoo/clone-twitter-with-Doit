@@ -192,3 +192,7 @@ infinite scroll을 위한 기능 구현 버튼형식으로 구현 완료
 ## connect to eachother
 
 - use by webRTC
+
+## this platform is can create only one room
+
+and then waiting other person

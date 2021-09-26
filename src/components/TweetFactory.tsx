@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
 import {
@@ -7,9 +7,21 @@ import {
   uploadBytesResumable,
   getDownloadURL
 } from "firebase/storage";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "store/store";
+
+import * as wss from "components/utils/wssConnection/wssConnection";
+import socketSlice from "store/reducers/socketSlice";
+import tweetSlice from "store/reducers/tweetSlice";
+
 type Props = {};
+
+type HandlieJoinRoomType = {
+  socketId: string;
+  roomId: string;
+  counselType: string;
+  userType: string;
+};
 
 const TweetFactory = (props: Props) => {
   const [tweet, setTweet] = useState("");
@@ -19,9 +31,34 @@ const TweetFactory = (props: Props) => {
   const [attachmentFB, setAttachmentFB] = useState<
     string | ArrayBuffer | null | undefined
   >(null);
+  const dispatch = useDispatch();
   const userInfo = useSelector((state: RootState) => state.users.userInfo);
+  const socketId = useSelector((state: RootState) => state?.socket?.socket?.id);
+  const myTweetContents = useSelector(
+    (state: RootState) => state?.tweets.myTweet
+  );
   // Create a root reference
   const storage = getStorage();
+
+  const handleJoinRoom = useCallback(
+    roomId => {
+      // let roomId = uuidV1();
+
+      console.log("uuid", roomId);
+
+      const data: HandlieJoinRoomType = {
+        socketId: socketId,
+        roomId,
+        counselType: "Video",
+        userType: "Client"
+      };
+
+      console.log("Join room Button activated");
+      dispatch(socketSlice.actions.getRoomHostInfo(data));
+      wss.joinRoom({ roomId: roomId });
+    },
+    [socketId]
+  );
 
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let theFile;
@@ -75,7 +112,11 @@ const TweetFactory = (props: Props) => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    if (myTweetContents) {
+      alert("이미 만들어진 방이 있습니다.");
+      return;
+    }
+    let uuid = uuidv4();
     // tweet upload용 함수
     type data = {
       downloadURL?: string;
@@ -84,27 +125,41 @@ const TweetFactory = (props: Props) => {
     const uploadTweet = async (data?: data) => {
       // tweet upload with downloadURL(images)
       try {
-        // firestore에 업로드 하는 방법(with javascript 9 version)
-        const docRef = await addDoc(collection(getFirestore(), "tweets"), {
+        const tweetContents = {
           text: tweet,
           createdAt: Date.now(),
           creatorId: userInfo.uid,
+          roomId: uuid,
           attachmentURL: data?.downloadURL || "",
           uploadPath: data?.uploadPath || ""
-        });
+        };
+        // firestore에 업로드 하는 방법(with javascript 9 version)
+        const docRef = await addDoc(
+          collection(getFirestore(), "tweets"),
+          tweetContents
+        );
         console.log("Document written with ID: ", docRef.id);
+
+        dispatch(
+          tweetSlice.actions.setMyTweet({ docId: docRef.id, ...tweetContents })
+        );
+
+        // 트윗이 만들어졌아면 myRoom으로 history.push 한다음
+        // 내 고유 roomId로 joinroom 실행 하도록 바꿔야함
+        handleJoinRoom(uuid);
       } catch (err) {}
       clearAfterUpload();
     };
 
     // 업로드 경로 지정
-    const storageRef = ref(storage, `${userInfo.uid}/${uuidv4()}`);
+    const storageRef = ref(storage, `${userInfo.uid}/${uuid}`);
     // console.log('outsid attachment?: ', attachment);
     const uploadPath = storageRef.fullPath;
     // console.log('storageRef.fullPath: ', storageRef.fullPath);
     // console.log('storageRef: ', storageRef);
 
     // 이미지가 없다면 그냥 트윗만 한다
+    console.log("storageRef", storageRef);
 
     if (!attachmentFB) {
       console.log("just tweet upload");

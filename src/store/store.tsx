@@ -24,7 +24,7 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage,
-  blacklist: ["socket", "streams", "toggles"]
+  blacklist: ["socket", "streams", "toggles", "tweets"]
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

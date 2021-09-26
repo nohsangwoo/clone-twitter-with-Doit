@@ -15,6 +15,8 @@ import TweetFactory from "components/TweetFactory";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "store/store";
 import firebaseSlice from "store/reducers/firebaseSlice";
+import MyRoom from "pages/MyRoom";
+import { useHistory } from "react-router-dom";
 
 type Props = {};
 const Home = (props: Props) => {
@@ -23,7 +25,7 @@ const Home = (props: Props) => {
     (state: RootState) => state.firebase.limitIndex
   );
   const [tweets, setTweets] = useState<any>([]);
-
+  const history = useHistory();
   const dispatch = useDispatch();
   // const [limitIndex, setLimitIndex] = useState<number>(5);
   // 일반적인 데이터를 데이터베이스에서 가져오기
@@ -42,6 +44,15 @@ const Home = (props: Props) => {
   //     });
   //   });
   // };
+  useEffect(() => {
+    // 웹 브러우저 윈도우 창 종료 직전 이벤트
+    window.addEventListener("beforeunload", () =>
+      alert("브라우저 종료직전 알랏")
+    );
+
+    // 웹 브라우저 윈도우 창 종료 이벤트
+    window.addEventListener("unload", () => alert("브라우저 종료됨"));
+  }, []);
 
   useEffect(() => {
     // getTweets();
@@ -57,7 +68,7 @@ const Home = (props: Props) => {
       // startAfter(1632049101858),
       limit(limitIndex)
     );
-
+    // docRef.id
     const unsubscribe = onSnapshot(q, querySnapshot => {
       const newArray = querySnapshot.docs.map(doc => {
         return {
@@ -93,6 +104,7 @@ const Home = (props: Props) => {
       >
         load more ...
       </button>
+      {/* <MyRoom /> */}
     </>
   );
 };
