@@ -19,8 +19,22 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "store/store";
 import firebaseSlice from "store/reducers/firebaseSlice";
 import { deleteObject, getStorage, ref } from "firebase/storage";
+import Masonry from "react-masonry-css";
+import styled from "styled-components";
+import "./masornyLayout.css";
+const MarsonryWrapper = styled.div`
+  width: 100%;
+  border: 1px solid black;
+`;
 
+const ItemWrapper = styled.div<{ GHEIGHT: string }>`
+  height: ${props => {
+    console.log("inside props.GHEIGHT", props.GHEIGHT);
+    return props.GHEIGHT;
+  }}px;
+`;
 type Props = {};
+
 const Home = (props: Props) => {
   const userInfo = useSelector((state: RootState) => state.users.userInfo);
   const limitIndex = useSelector(
@@ -140,6 +154,38 @@ const Home = (props: Props) => {
     };
   }, [limitIndex]);
 
+  const breakpointColumnsObj = {
+    default: 3,
+    1100: 2,
+    700: 2,
+    500: 2
+  };
+
+  const items = [
+    { id: 1, name: "My First Item" },
+    { id: 2, name: "Another item" },
+    { id: 3, name: "Third Item" },
+    { id: 4, name: "Here is the Fourth" },
+    { id: 5, name: "High Five" }
+  ];
+
+  // Convert array to JSX items
+  const itemsM = items.map(function (item) {
+    const GET_HEIGHT = () => {
+      const heights = [137, 194, 215, 222, 255, 264, 263, 314];
+      const getHeight = (heights: Number[]) => {
+        return heights[Math.floor(Math.random() * heights.length)];
+      };
+      const result = getHeight(heights);
+      return result;
+    };
+    return (
+      <ItemWrapper GHEIGHT={String(GET_HEIGHT())} key={item.id}>{`${
+        item.name
+      }/${GET_HEIGHT()}`}</ItemWrapper>
+    );
+  });
+
   return (
     <>
       <TweetFactory />
@@ -160,7 +206,15 @@ const Home = (props: Props) => {
       >
         load more ...
       </button>
-      {/* <MyRoom /> */}
+      <MarsonryWrapper>
+        <Masonry
+          breakpointCols={breakpointColumnsObj}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column"
+        >
+          {itemsM}
+        </Masonry>
+      </MarsonryWrapper>
     </>
   );
 };

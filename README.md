@@ -221,3 +221,8 @@ tweet도 삭제됨
 ## 영상통화중에 다른사람이 접속하면?
 
 - 영상통화중이다라는 메시지와 함꼐 접속 거부 알람
+
+## react-masonry-css
+
+- npm install react-masonry-css
+- 일단 적용, 디자인 구상은 조금 뒤에
