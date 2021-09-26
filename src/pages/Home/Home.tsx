@@ -40,40 +40,34 @@ const Home = (props: Props) => {
 
   const onDelete = async (docId: string, uploadPath: string) => {
     console.log("delete doc id", myTweetContents?.docId);
-    const ok = window.confirm("삭제 하시겠습니까?");
-    if (ok) {
-      // implement delete function
-      //   console.log('tweetObj', tweetObj.id);
-      //   doc("컬렉션이름", "문서이름")
-      await deleteDoc(doc(getFirestore(), "tweets", docId))
-        .then(() => {
-          console.log("Delete succeeded!");
+    await deleteDoc(doc(getFirestore(), "tweets", docId))
+      .then(() => {
+        console.log("Delete succeeded!");
 
-          if (uploadPath !== "") {
-            console.log("image delete progress!");
+        if (uploadPath !== "") {
+          console.log("image delete progress!");
 
-            const storage = getStorage();
+          const storage = getStorage();
 
-            // Create a reference to the file to delete
-            const desertRef = ref(storage, uploadPath);
+          // Create a reference to the file to delete
+          const desertRef = ref(storage, uploadPath);
 
-            // Delete the file
-            deleteObject(desertRef)
-              .then(() => {
-                // File deleted successfully
-                console.log("File deleted successfully");
-              })
-              .catch(error => {
-                // Uh-oh, an error occurred!
-                console.log("Uh-oh, an error occurred!");
-              });
-          }
-        })
-        .catch(error => {
-          setError(error.message);
-        })
-        .finally(() => console.log("finally"));
-    }
+          // Delete the file
+          deleteObject(desertRef)
+            .then(() => {
+              // File deleted successfully
+              console.log("File deleted successfully");
+            })
+            .catch(error => {
+              // Uh-oh, an error occurred!
+              console.log("Uh-oh, an error occurred!");
+            });
+        }
+      })
+      .catch(error => {
+        setError(error.message);
+      })
+      .finally(() => console.log("finally"));
   };
 
   // const [limitIndex, setLimitIndex] = useState<number>(5);
@@ -98,21 +92,23 @@ const Home = (props: Props) => {
   // }, [myTweetContents]);
 
   useEffect(() => {
-    // 웹 브러우저 윈도우 창 종료 직전 이벤트
-    window.addEventListener("beforeunload", event => {
-      event.preventDefault();
-      if (myTweetContents?.docId) {
-        onDelete(myTweetContents?.docId, myTweetContents.uploadPath);
-      }
-      alert("브라우저 종료직전 알랏");
-    });
+    // window.addEventListener("beforeunload", event => {
+    //   // 표준에 따라 기본 동작 방지
+    //   event.preventDefault();
+    //   // Chrome에서는 returnValue 설정이 필요함
+    //   event.returnValue = "ㅎㅎㅎㅎ";
+    // });
+    // console.log("나기기 확인 이벤트");
 
     // 웹 브라우저 윈도우 창 종료 이벤트
     window.addEventListener("unload", event => {
       event.preventDefault();
-      alert("브라우저 종료됨");
+      console.log("브라우저 종료됨");
+      if (myTweetContents) {
+        onDelete(myTweetContents?.docId, myTweetContents?.uploadPath);
+      }
     });
-  }, []);
+  });
 
   useEffect(() => {
     // getTweets();

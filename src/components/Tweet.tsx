@@ -13,7 +13,10 @@ import { RootState } from "store/store";
 import socketSlice from "store/reducers/socketSlice";
 import * as wss from "components/utils/wssConnection/wssConnection";
 import { useHistory } from "react-router-dom";
-const TweetContainer = styled.div`
+const TweetContainer = styled.div``;
+
+const TweetViewerWrapper = styled.div`
+  border: 2px solid blue;
   cursor: pointer;
   transition: 0.5s all;
   &:active {
@@ -129,7 +132,6 @@ const Tweet = ({ tweetObj, isOwner }: Props) => {
   return (
     <TweetContainer
       style={{ border: "1px solid black", margin: "10px 0", padding: "10px" }}
-      onClick={handleConnectRoom}
     >
       {editing ? (
         <>
@@ -141,15 +143,17 @@ const Tweet = ({ tweetObj, isOwner }: Props) => {
         </>
       ) : (
         <>
-          <h4>{tweetObj.text}</h4>
-          {tweetObj.attachmentURL && (
-            <img
-              src={tweetObj.attachmentURL}
-              width="50px"
-              height="50px"
-              alt="tweet"
-            />
-          )}
+          <TweetViewerWrapper onClick={handleConnectRoom}>
+            <h4>{tweetObj.text}</h4>
+            {tweetObj.attachmentURL && (
+              <img
+                src={tweetObj.attachmentURL}
+                width="50px"
+                height="50px"
+                alt="tweet"
+              />
+            )}
+          </TweetViewerWrapper>
           {isOwner && (
             <>
               <button onClick={onDelete}>Delete Tweet</button>
