@@ -8,17 +8,17 @@ const AdminMainVideoViewerContainer = styled.div`
 `;
 
 const VideoContentWrapper = styled.div`
-  border: 1px solid red;
-  width: 360px;
-  height: 700px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  width: 400px;
+  display: flex;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 55%);
+  transition: all 0.5s;
 `;
 
 const VideoContent = styled.video`
-  height: 100%;
-  width: auto;
+  width: 100%;
+  /* width: auto; */
 `;
 
 type Props = {};

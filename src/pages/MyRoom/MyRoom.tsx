@@ -15,14 +15,30 @@ import { deleteDoc, doc, getFirestore } from "firebase/firestore";
 import { deleteObject, getStorage, ref } from "firebase/storage";
 import ClientMainVideoViewer from "./components/ClientMainVideoViewer";
 
+const MyRoomContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100%;
+`;
+
+const MainViewWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+`;
+
 type locationStateType = {
   roomId: string;
 };
 const UserListWrapper = styled.div`
+  display: flex;
+  justify-content: center;
   width: 100%;
-  position: absolute;
+  position: fixed;
   bottom: 80px;
-  border: 1px solid red;
+  z-index: 10;
+  /* border: 1px solid red; */
 `;
 
 type HandlieJoinRoomType = {
@@ -153,8 +169,10 @@ const MyRoom = (props: Props) => {
     });
   });
   return (
-    <div>
-      <ClientMainVideoViewer />
+    <MyRoomContainer>
+      <MainViewWrapper>
+        <ClientMainVideoViewer />
+      </MainViewWrapper>
       {/* <ControlPanel /> */}
       {/* <Controller /> */}
       <UserListWrapper>
@@ -164,7 +182,7 @@ const MyRoom = (props: Props) => {
         chatOpen={chatOpen}
         setChatHandler={setChatHandler}
       />
-    </div>
+    </MyRoomContainer>
   );
 };
 
