@@ -1,18 +1,68 @@
 import React, { useState } from "react";
 import authService, { auth } from "fbase";
 import { useHistory } from "react-router";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  query,
-  where,
-  orderBy
-} from "firebase/firestore";
+// import {
+//   getFirestore,
+//   collection,
+//   getDocs,
+//   query,
+//   where,
+//   orderBy
+// } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
+import styled from "styled-components";
 
+const ProfileContainer = styled.div`
+  position: relative;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+`;
+
+const UpdateProfileText = styled.input`
+  background: white;
+  border: none;
+  &:focus {
+    outline: none;
+  }
+  border-bottom: 1px solid gray;
+`;
+
+const UpdateProfileBTN = styled.button`
+  background: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.5s;
+  &:hover {
+    transform: scale(1.08);
+  }
+  &:active {
+    transform: scale(0.98);
+  }
+`;
+
+const LogoutBTN = styled.button`
+  margin-top: 200px;
+  background: white;
+  border: 1px solid black;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 100px;
+  height: 100px;
+  transition: all 0.5s;
+  &:hover {
+    transform: scale(1.12);
+  }
+  &:active {
+    transform: scale(0.98);
+  }
+`;
 interface Props {
   refreshUser: () => void;
 }
@@ -66,41 +116,41 @@ const Profile = ({ refreshUser }: Props) => {
   };
 
   // 실시간 아닌방식으로 DB가져오기
-  const getMyTweet = async () => {
-    // 각종 조건을 걸어서 데이터 가져오기(실시간이 아님)
-    // 조건을 만들때마다 firebase 색인 추가 작업을 진행해줘야한다.
-    const q = query(
-      collection(getFirestore(), "tweets"),
-      where("creatorId", "==", userInfo.uid),
-      orderBy("createdAt", "asc")
-      // limit(25)
-    );
+  // const getMyTweet = async () => {
+  //   // 각종 조건을 걸어서 데이터 가져오기(실시간이 아님)
+  //   // 조건을 만들때마다 firebase 색인 추가 작업을 진행해줘야한다.
+  //   const q = query(
+  //     collection(getFirestore(), "tweets"),
+  //     where("creatorId", "==", userInfo.uid),
+  //     orderBy("createdAt", "asc")
+  //     // limit(25)
+  //   );
 
-    const documentSnapshots = await getDocs(q);
+  //   const documentSnapshots = await getDocs(q);
 
-    const value = documentSnapshots.docs.map((doc, index) => {
-      // console.log(index, 'doc: ', doc);
-      return doc.data();
-    });
+  //   const value = documentSnapshots.docs.map((doc, index) => {
+  //     // console.log(index, 'doc: ', doc);
+  //     return doc.data();
+  //   });
 
-    console.log("value: ", value);
-  };
+  //   console.log("value: ", value);
+  // };
 
   return (
-    <div>
+    <ProfileContainer>
       <form onSubmit={onSubmit}>
-        <input
+        <UpdateProfileText
           type="text"
           placeholder="Display Name"
           onChange={onChange}
           value={newDisplayName}
         />
-        <button>Update Profile</button>
+        <UpdateProfileBTN>Update Profile</UpdateProfileBTN>
       </form>
 
-      <button onClick={onLogOutClick}>Log Out</button>
-      <button onClick={getMyTweet}>get query</button>
-    </div>
+      <LogoutBTN onClick={onLogOutClick}>Log Out</LogoutBTN>
+      {/* <button onClick={getMyTweet}>get query</button> */}
+    </ProfileContainer>
   );
 };
 
