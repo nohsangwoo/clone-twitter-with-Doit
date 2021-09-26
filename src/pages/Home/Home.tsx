@@ -33,6 +33,16 @@ const ItemWrapper = styled.div<{ GHEIGHT: string }>`
     return props.GHEIGHT;
   }}px;
 `;
+
+type tweetObjType = {
+  id: string;
+  text: string;
+  createdAt: string;
+  creatorId: string;
+  roomId: string;
+  attachmentURL: string;
+  uploadPath: string;
+};
 type Props = {};
 
 const Home = (props: Props) => {
@@ -161,16 +171,94 @@ const Home = (props: Props) => {
     500: 2
   };
 
-  const items = [
-    { id: 1, name: "My First Item" },
-    { id: 2, name: "Another item" },
-    { id: 3, name: "Third Item" },
-    { id: 4, name: "Here is the Fourth" },
-    { id: 5, name: "High Five" }
+  const dummyTweetsObj: tweetObjType[] = [
+    {
+      id: "0",
+      text: "test0",
+      createdAt: "03019293",
+      creatorId: "0",
+      roomId: "room0",
+      attachmentURL: "",
+      uploadPath: ""
+    },
+    {
+      id: "1",
+      text: "test1",
+      createdAt: "03019293",
+      creatorId: "1",
+      roomId: "room1",
+      attachmentURL: "",
+      uploadPath: ""
+    },
+    {
+      id: "2",
+      text: "test2",
+      createdAt: "03019293",
+      creatorId: "2",
+      roomId: "room2",
+      attachmentURL: "",
+      uploadPath: ""
+    },
+    {
+      id: "3",
+      text: "test3",
+      createdAt: "03019293",
+      creatorId: "3",
+      roomId: "room3",
+      attachmentURL: "",
+      uploadPath: ""
+    },
+    {
+      id: "4",
+      text: "test4",
+      createdAt: "03019293",
+      creatorId: "4",
+      roomId: "room4",
+      attachmentURL: "",
+      uploadPath: ""
+    },
+    {
+      id: "5",
+      text: "test5",
+      createdAt: "03019293",
+      creatorId: "5",
+      roomId: "room5",
+      attachmentURL: "",
+      uploadPath: ""
+    },
+    {
+      id: "6",
+      text: "test6",
+      createdAt: "03019293",
+      creatorId: "6",
+      roomId: "room6",
+      attachmentURL: "",
+      uploadPath: ""
+    },
+    {
+      id: "7",
+      text: "test7",
+      createdAt: "03019293",
+      creatorId: "7",
+      roomId: "room7",
+      attachmentURL: "",
+      uploadPath: ""
+    },
+    {
+      id: "8",
+      text: "test8",
+      createdAt: "03019293",
+      creatorId: "8",
+      roomId: "room8",
+      attachmentURL: "",
+      uploadPath: ""
+    }
   ];
 
   // Convert array to JSX items
-  const itemsM = items.map(function (item) {
+
+  // const tweetsPresent = tweets.map((tweetObj: tweetObjType) => {
+  const tweetsPresent = dummyTweetsObj.map((tweetObj: tweetObjType) => {
     const GET_HEIGHT = () => {
       const heights = [137, 194, 215, 222, 255, 264, 263, 314];
       const getHeight = (heights: Number[]) => {
@@ -180,17 +268,23 @@ const Home = (props: Props) => {
       return result;
     };
     return (
-      <ItemWrapper GHEIGHT={String(GET_HEIGHT())} key={item.id}>{`${
-        item.name
-      }/${GET_HEIGHT()}`}</ItemWrapper>
+      <>
+        <Tweet
+          key={tweetObj.id}
+          tweetObj={tweetObj}
+          // 내가 쓴 tweet만 제어하기 위한 조건
+          isOwner={tweetObj.creatorId === userInfo.uid}
+          getHeight={String(GET_HEIGHT())}
+        />
+      </>
     );
   });
 
   return (
     <>
       <TweetFactory />
-      <div>
-        {tweets.map((tweetObj: any) => {
+      {/* <div>
+        {tweets.map((tweetObj: tweetObjType) => {
           return (
             <Tweet
               key={tweetObj.id}
@@ -200,7 +294,7 @@ const Home = (props: Props) => {
             />
           );
         })}
-      </div>
+      </div> */}
       <button
         onClick={() => dispatch(firebaseSlice.actions.increaseLimitIndex(5))}
       >
@@ -212,7 +306,7 @@ const Home = (props: Props) => {
           className="my-masonry-grid"
           columnClassName="my-masonry-grid_column"
         >
-          {itemsM}
+          {tweetsPresent}
         </Masonry>
       </MarsonryWrapper>
     </>
