@@ -180,103 +180,103 @@ const Home = (props: Props) => {
     550: 1
   };
 
-  const dummyTweetsObj: tweetObjType[] = [
-    {
-      id: "0",
-      text: "test0",
-      createdAt: "03019293",
-      creatorId: "0",
-      roomId: "room0",
-      attachmentURL:
-        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp1.jpg?alt=media&token=e9193e29-7521-41c1-bc2a-a633fd546417",
-      uploadPath: ""
-    },
-    {
-      id: "1",
-      text: "test1",
-      createdAt: "03019293",
-      creatorId: "1",
-      roomId: "room1",
-      attachmentURL:
-        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp2.jpg?alt=media&token=9f222b46-faf8-42b8-8e53-0bff44721d4a",
-      uploadPath: ""
-    },
-    {
-      id: "2",
-      text: "test2",
-      createdAt: "03019293",
-      creatorId: "2",
-      roomId: "room2",
-      attachmentURL:
-        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp3.jpg?alt=media&token=a1e3a287-2c0d-4bb3-9440-801136f7b370",
-      uploadPath: ""
-    },
-    {
-      id: "3",
-      text: "test3",
-      createdAt: "03019293",
-      creatorId: "3",
-      roomId: "room3",
-      attachmentURL:
-        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp4.jpg?alt=media&token=610cf30d-4464-4565-abdf-af6beab79f96",
-      uploadPath: ""
-    },
-    {
-      id: "4",
-      text: "test4",
-      createdAt: "03019293",
-      creatorId: "4",
-      roomId: "room4",
-      attachmentURL:
-        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp5.jpg?alt=media&token=b47bf9cc-5fa6-4644-8a04-033eded2329b",
-      uploadPath: ""
-    },
-    {
-      id: "5",
-      text: "test5",
-      createdAt: "03019293",
-      creatorId: "5",
-      roomId: "room5",
-      attachmentURL:
-        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp6.jpg?alt=media&token=4e9ebbc7-eb03-42df-bcf1-53cf2839ce01",
-      uploadPath: ""
-    },
-    {
-      id: "6",
-      text: "test6",
-      createdAt: "03019293",
-      creatorId: "6",
-      roomId: "room6",
-      attachmentURL:
-        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp7.jpg?alt=media&token=bc3d5644-5d1b-4376-b182-1167e74aa75e",
-      uploadPath: ""
-    },
-    {
-      id: "7",
-      text: "test7",
-      createdAt: "03019293",
-      creatorId: "7",
-      roomId: "room7",
-      attachmentURL:
-        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp8.jpg?alt=media&token=4a6be246-2fba-43fa-8d48-176bb4874f39",
-      uploadPath: ""
-    },
-    {
-      id: "8",
-      text: "test8",
-      createdAt: "03019293",
-      creatorId: "8",
-      roomId: "room8",
-      attachmentURL:
-        "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp9.jpg?alt=media&token=68a5f820-591b-49b7-9234-98ecc79dfdf4",
-      uploadPath: ""
-    }
-  ];
+  // const dummyTweetsObj: tweetObjType[] = [
+  //   {
+  //     id: "0",
+  //     text: "test0",
+  //     createdAt: "03019293",
+  //     creatorId: "0",
+  //     roomId: "room0",
+  //     attachmentURL:
+  //       "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp1.jpg?alt=media&token=e9193e29-7521-41c1-bc2a-a633fd546417",
+  //     uploadPath: ""
+  //   },
+  //   {
+  //     id: "1",
+  //     text: "test1",
+  //     createdAt: "03019293",
+  //     creatorId: "1",
+  //     roomId: "room1",
+  //     attachmentURL:
+  //       "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp2.jpg?alt=media&token=9f222b46-faf8-42b8-8e53-0bff44721d4a",
+  //     uploadPath: ""
+  //   },
+  //   {
+  //     id: "2",
+  //     text: "test2",
+  //     createdAt: "03019293",
+  //     creatorId: "2",
+  //     roomId: "room2",
+  //     attachmentURL:
+  //       "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp3.jpg?alt=media&token=a1e3a287-2c0d-4bb3-9440-801136f7b370",
+  //     uploadPath: ""
+  //   },
+  //   {
+  //     id: "3",
+  //     text: "test3",
+  //     createdAt: "03019293",
+  //     creatorId: "3",
+  //     roomId: "room3",
+  //     attachmentURL:
+  //       "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp4.jpg?alt=media&token=610cf30d-4464-4565-abdf-af6beab79f96",
+  //     uploadPath: ""
+  //   },
+  //   {
+  //     id: "4",
+  //     text: "test4",
+  //     createdAt: "03019293",
+  //     creatorId: "4",
+  //     roomId: "room4",
+  //     attachmentURL:
+  //       "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp5.jpg?alt=media&token=b47bf9cc-5fa6-4644-8a04-033eded2329b",
+  //     uploadPath: ""
+  //   },
+  //   {
+  //     id: "5",
+  //     text: "test5",
+  //     createdAt: "03019293",
+  //     creatorId: "5",
+  //     roomId: "room5",
+  //     attachmentURL:
+  //       "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp6.jpg?alt=media&token=4e9ebbc7-eb03-42df-bcf1-53cf2839ce01",
+  //     uploadPath: ""
+  //   },
+  //   {
+  //     id: "6",
+  //     text: "test6",
+  //     createdAt: "03019293",
+  //     creatorId: "6",
+  //     roomId: "room6",
+  //     attachmentURL:
+  //       "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp7.jpg?alt=media&token=bc3d5644-5d1b-4376-b182-1167e74aa75e",
+  //     uploadPath: ""
+  //   },
+  //   {
+  //     id: "7",
+  //     text: "test7",
+  //     createdAt: "03019293",
+  //     creatorId: "7",
+  //     roomId: "room7",
+  //     attachmentURL:
+  //       "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp8.jpg?alt=media&token=4a6be246-2fba-43fa-8d48-176bb4874f39",
+  //     uploadPath: ""
+  //   },
+  //   {
+  //     id: "8",
+  //     text: "test8",
+  //     createdAt: "03019293",
+  //     creatorId: "8",
+  //     roomId: "room8",
+  //     attachmentURL:
+  //       "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp9.jpg?alt=media&token=68a5f820-591b-49b7-9234-98ecc79dfdf4",
+  //     uploadPath: ""
+  //   }
+  // ];
 
   // Convert array to JSX items
 
   // const tweetsPresent = tweets.map((tweetObj: tweetObjType) => {
-  const tweetsPresent = dummyTweetsObj.map((tweetObj: tweetObjType) => {
+  const tweetsPresent = tweets.map((tweetObj: tweetObjType) => {
     return (
       <Tweet
         key={tweetObj.id}

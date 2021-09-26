@@ -171,13 +171,17 @@ const Tweet = ({ tweetObj, isOwner, getHeight }: Props) => {
       alert(error);
     }
   }, [error]);
-  const baseBgImage = "";
-
+  const baseBgImage =
+    "https://firebasestorage.googleapis.com/v0/b/twitter-clone-d67d7.appspot.com/o/p-image%2Fp1.jpg?alt=media&token=e9193e29-7521-41c1-bc2a-a633fd546417";
   return (
     <TweetContainer>
       <TweetBGContainer
         getHeight={getHeight}
-        bgurl={tweetObj.attachmentURL || baseBgImage}
+        bgurl={
+          tweetObj.attachmentURL.length === 0
+            ? baseBgImage
+            : tweetObj.attachmentURL
+        }
         onClick={handleConnectRoom}
       >
         <TweetBGHolder

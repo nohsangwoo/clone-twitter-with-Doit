@@ -228,3 +228,7 @@ tweet도 삭제됨
 - 일단 적용, 디자인 구상은 조금 뒤에
 
 ## home layout
+
+## 사진 업로드 안했을때 기본 표시 이미지 설정
+
+set default background image
