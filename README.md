@@ -226,3 +226,5 @@ tweet도 삭제됨
 
 - npm install react-masonry-css
 - 일단 적용, 디자인 구상은 조금 뒤에
+
+## home layout

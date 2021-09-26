@@ -253,7 +253,8 @@ const Home = (props: Props) => {
         key={tweetObj.id}
         tweetObj={tweetObj}
         // 내가 쓴 tweet만 제어하기 위한 조건
-        isOwner={tweetObj.creatorId === userInfo.uid}
+        // isOwner={tweetObj.creatorId === userInfo.uid}
+        isOwner={true}
         getHeight={String(GET_HEIGHT())}
       />
     );

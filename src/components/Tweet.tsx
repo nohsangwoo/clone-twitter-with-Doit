@@ -1,40 +1,52 @@
-import React, { useCallback, useState } from "react";
-import {
-  deleteDoc,
-  getFirestore,
-  doc,
-  updateDoc
-  //   setDoc,
-} from "firebase/firestore";
+import React, { useState } from "react";
+import { deleteDoc, getFirestore, doc, updateDoc } from "firebase/firestore";
 import { deleteObject, getStorage, ref } from "firebase/storage";
 import styled from "styled-components";
-
 import { useHistory } from "react-router-dom";
-const TweetContainer = styled.div<{ getHeight: string; bgurl: string }>`
+
+const TweetContainer = styled.div``;
+const TweetBGContainer = styled.div<{ getHeight: string; bgurl: string }>`
   display: flex;
   justify-content: center;
   width: 238px;
   height: ${props => props.getHeight}px;
-  border: 1px solid black;
-  padding: 5px;
-  background-color: white;
   border-radius: 13px;
   position: relative;
+  overflow: hidden;
+  cursor: pointer;
+`;
 
+const TweetBGHolder = styled.div<{ getHeight: string; bgurl: string }>`
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
   background-image: url(${props => props.bgurl});
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-  /* background: black; ; */
+  transition: all 0.5s;
+  border-radius: 13px;
+
+  &:hover {
+    transform: scale(1.2);
+  }
 `;
 
-const TweetViewerWrapper = styled.div`
-  border: 2px solid blue;
-  cursor: pointer;
-  transition: 0.5s all;
-  &:active {
-    transform: scale(0.9);
-  }
+const TweetContents = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 5px;
+  padding: 5px 0;
+  position: relative;
+  width: 100%;
+  height: auto;
+  background: white;
+  color: #000;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 55%);
 `;
 
 type locationStateType = {
@@ -137,31 +149,39 @@ const Tweet = ({ tweetObj, isOwner, getHeight }: Props) => {
   const baseBgImage = "";
 
   return (
-    <TweetContainer
-      getHeight={getHeight}
-      bgurl={tweetObj.attachmentURL || baseBgImage}
-    >
-      {editing ? (
-        <>
-          <form onSubmit={onSubmit}>
-            <input value={newTweet} onChange={onChange} required />
-            <input type="submit" value="Update Tweet" />
-          </form>
-          <button onClick={toggleEditing}>Cancel</button>
-        </>
-      ) : (
-        <>
-          <TweetViewerWrapper onClick={handleConnectRoom}>
-            <h4>{tweetObj.text}</h4>
-          </TweetViewerWrapper>
-          {isOwner && (
-            <>
-              <button onClick={onDelete}>Delete Tweet</button>
-              <button onClick={toggleEditing}>Edit Tweet</button>
-            </>
-          )}
-        </>
-      )}
+    <TweetContainer>
+      <TweetBGContainer
+        getHeight={getHeight}
+        bgurl={tweetObj.attachmentURL || baseBgImage}
+        onClick={handleConnectRoom}
+      >
+        <TweetBGHolder
+          getHeight={getHeight}
+          bgurl={tweetObj.attachmentURL || baseBgImage}
+        ></TweetBGHolder>
+      </TweetBGContainer>
+      {/* 하단메뉴 */}
+      <TweetContents>
+        {editing ? (
+          <>
+            <form onSubmit={onSubmit}>
+              <input value={newTweet} onChange={onChange} required />
+              <input type="submit" value="Update Tweet" />
+            </form>
+            <button onClick={toggleEditing}>Cancel</button>
+          </>
+        ) : (
+          <>
+            <div>{tweetObj.text}</div>
+            {isOwner && (
+              <>
+                <button onClick={onDelete}>Delete Tweet</button>
+                <button onClick={toggleEditing}>Edit Tweet</button>
+              </>
+            )}
+          </>
+        )}
+      </TweetContents>
     </TweetContainer>
   );
 };
