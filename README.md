@@ -232,3 +232,5 @@ tweet도 삭제됨
 ## 사진 업로드 안했을때 기본 표시 이미지 설정
 
 set default background image
+
+## handleAddStream 동작 안함 버그 찾자
