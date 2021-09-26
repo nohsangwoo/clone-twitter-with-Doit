@@ -26,7 +26,9 @@ function App(): JSX.Element {
       }
       setInit(true);
     });
-  }, []);
+    // eslint-disable
+    // @ts-ignore
+  }, [dispatch]);
 
   return (
     <>

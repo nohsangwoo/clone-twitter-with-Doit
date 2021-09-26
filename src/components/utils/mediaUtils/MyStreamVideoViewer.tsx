@@ -1,8 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
-// import io from "socket.io-client";
-// import Peer from "simple-peer";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import devicesSlice from "../../../store/reducers/devicesSlice";
 import { useHistory, useLocation } from "react-router-dom";
@@ -45,11 +42,6 @@ const IconButtonWrapper = styled(IconButton)`
   z-index: 1;
 `;
 
-const CircularProgressStyled = styled(CircularProgress)`
-  color: #fff;
-  margin-bottom: 10px;
-`;
-
 const FullscreenButton = styled(Fullscreen)`
   color: #fff;
 `;
@@ -84,7 +76,7 @@ const MyStreamVideoViewer = (props: Props): JSX.Element => {
         console.error(e.message);
       }
     }
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     console.log("rerender for myStream", myStream);
 
@@ -102,7 +94,7 @@ const MyStreamVideoViewer = (props: Props): JSX.Element => {
   useEffect(() => {
     // 해당 컴포넌트가 새로 고침후 접속시 video tag는 꼭 muted속성이 true여야 하니깐 초기화 하는내용
     dispatch(devicesSlice.actions.setGlobalMutedForAllVideoTag(true));
-  }, []);
+  }, [dispatch]);
 
   const handleSetMainStream = () => {
     if (props?.isSetStream) {

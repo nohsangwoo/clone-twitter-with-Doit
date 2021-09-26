@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-
+import React from "react";
 import MicBtn from "../button/MicButton";
 import SoundBtn from "../button/SoundButton";
 import CamBtn from "../button/CamButton";

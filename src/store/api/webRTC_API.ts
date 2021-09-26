@@ -1,5 +1,3 @@
-import socketSlice from "store/reducers/socketSlice";
-import * as wss from "components/utils/wssConnection/wssConnection";
 export const Constrains = {
   audio: true,
   // 이런 간단한 속성을 이용하여 mediaConstraints를 구성하면 장치정보를 얻고 분류하는 작업 없이 전면/후면 카메라 전환 기능을 구현할 수 있다.

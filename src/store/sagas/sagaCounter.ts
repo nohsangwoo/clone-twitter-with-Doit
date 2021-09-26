@@ -1,11 +1,4 @@
-import {
-  delay,
-  all,
-  fork,
-  put,
-  takeEvery,
-  takeLatest
-} from "redux-saga/effects";
+import { delay, all, fork, put, takeEvery } from "redux-saga/effects";
 import counterSlice from "store/reducers/counterSlice";
 // const INCREASESAGA = 'INCREASESAGA';
 // const DECREASESAGA = 'DECREASESAGA';

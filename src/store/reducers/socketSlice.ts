@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { actionChannel } from "redux-saga/effects";
 
 export type roomHostInfoType = {
   socketId: string;

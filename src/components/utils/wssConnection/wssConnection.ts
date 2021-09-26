@@ -5,8 +5,6 @@ import * as webRTCHandler from "../webRTC/webRTCHandler";
 import socketSlice from "store/reducers/socketSlice";
 import counterSlice from "store/reducers/counterSlice";
 
-let myDataChannel: any;
-
 const BACKEND_SERVER_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:8000"

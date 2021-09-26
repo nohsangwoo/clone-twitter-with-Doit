@@ -1,4 +1,4 @@
-import { all, fork, put, takeLatest } from "redux-saga/effects";
+import { all, fork, takeLatest } from "redux-saga/effects";
 
 import { Constrains } from "../api/webRTC_API";
 

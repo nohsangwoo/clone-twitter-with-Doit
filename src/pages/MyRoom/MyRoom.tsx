@@ -8,7 +8,7 @@ import UserList from "./components/UserList";
 import ControlPanel from "components/utils/mediaUtils/ControlPanel";
 import MediaControlContainer from "components/containers/MediaControlContainer";
 import Controller from "components/utils/controller/Controller";
-import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { RootState } from "store/store";
 import socketSlice from "store/reducers/socketSlice";
 import { deleteDoc, doc, getFirestore } from "firebase/firestore";
@@ -109,13 +109,13 @@ const MyRoom = (props: Props) => {
     if (!location?.state?.roomId) {
       history.push("/");
     }
-  }, []);
+  }, [history, location]);
 
   useEffect(() => {
     dispatch(streamSlice.actions.getMyStreamSagaTrigger());
     dispatch(getMyDevices());
     wss.connectWithWebSocket();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (location?.state?.roomId) {
@@ -125,7 +125,13 @@ const MyRoom = (props: Props) => {
       );
       handleJoinRoom(location.state.roomId);
     }
-  }, [otherStream]);
+  }, [otherStream, location, handleJoinRoom]);
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     // window.addEventListener("beforeunload", event => {

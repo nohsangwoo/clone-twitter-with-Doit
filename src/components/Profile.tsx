@@ -4,10 +4,8 @@ import { useHistory } from "react-router";
 import {
   getFirestore,
   collection,
-  doc,
   getDocs,
   query,
-  limit,
   where,
   orderBy
 } from "firebase/firestore";

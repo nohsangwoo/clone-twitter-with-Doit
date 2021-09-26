@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
-import styled from "styled-components";
 
 interface Props {}
 const Navigation = (props: Props) => {

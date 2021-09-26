@@ -1,5 +1,5 @@
 import React from "react";
-import { RootStateOrAny, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "store/store";
 import styled from "styled-components";
 import VideoViewer from "./VideoViewer";

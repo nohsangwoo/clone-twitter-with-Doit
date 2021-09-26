@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { deleteDoc, getFirestore, doc, updateDoc } from "firebase/firestore";
 import { deleteObject, getStorage, ref } from "firebase/storage";
 import styled from "styled-components";
@@ -166,7 +166,11 @@ const Tweet = ({ tweetObj, isOwner, getHeight }: Props) => {
       state: locationState
     });
   };
-
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
   const baseBgImage = "";
 
   return (

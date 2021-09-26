@@ -4,7 +4,7 @@ import App from "./components/App";
 // import firebase from './components/App';
 
 import { Provider } from "react-redux";
-import store, { customHistory } from "./store/store";
+import store from "./store/store";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import AOSINIT from "./components/utils/AOSINIT";
