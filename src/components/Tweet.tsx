@@ -10,7 +10,7 @@ import { deleteObject, getStorage, ref } from "firebase/storage";
 import styled from "styled-components";
 
 import { useHistory } from "react-router-dom";
-const TweetContainer = styled.div<{ getHeight: string }>`
+const TweetContainer = styled.div<{ getHeight: string; bgurl: string }>`
   display: flex;
   justify-content: center;
   width: 238px;
@@ -20,6 +20,12 @@ const TweetContainer = styled.div<{ getHeight: string }>`
   background-color: white;
   border-radius: 13px;
   position: relative;
+
+  background-image: url(${props => props.bgurl});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  /* background: black; ; */
 `;
 
 const TweetViewerWrapper = styled.div`
@@ -128,8 +134,13 @@ const Tweet = ({ tweetObj, isOwner, getHeight }: Props) => {
     });
   };
 
+  const baseBgImage = "";
+
   return (
-    <TweetContainer getHeight={getHeight}>
+    <TweetContainer
+      getHeight={getHeight}
+      bgurl={tweetObj.attachmentURL || baseBgImage}
+    >
       {editing ? (
         <>
           <form onSubmit={onSubmit}>
@@ -142,14 +153,6 @@ const Tweet = ({ tweetObj, isOwner, getHeight }: Props) => {
         <>
           <TweetViewerWrapper onClick={handleConnectRoom}>
             <h4>{tweetObj.text}</h4>
-            {tweetObj.attachmentURL && (
-              <img
-                src={tweetObj.attachmentURL}
-                width="50px"
-                height="50px"
-                alt="tweet"
-              />
-            )}
           </TweetViewerWrapper>
           {isOwner && (
             <>
