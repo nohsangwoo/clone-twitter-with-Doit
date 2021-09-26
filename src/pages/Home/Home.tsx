@@ -22,16 +22,16 @@ import { deleteObject, getStorage, ref } from "firebase/storage";
 import Masonry from "react-masonry-css";
 import styled from "styled-components";
 import "./masornyLayout.css";
-const MarsonryWrapper = styled.div`
-  width: 100%;
-  border: 1px solid black;
-`;
+import GET_HEIGHT from "components/utils/getRandomHeigth";
 
-const ItemWrapper = styled.div<{ GHEIGHT: string }>`
-  height: ${props => {
-    console.log("inside props.GHEIGHT", props.GHEIGHT);
-    return props.GHEIGHT;
-  }}px;
+const HomeContainer = styled.div`
+  width: 100%;
+`;
+const MarsonryWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border: 1px solid red;
 `;
 
 type tweetObjType = {
@@ -94,27 +94,6 @@ const Home = (props: Props) => {
       .finally(() => console.log("finally"));
   };
 
-  // const [limitIndex, setLimitIndex] = useState<number>(5);
-  // 일반적인 데이터를 데이터베이스에서 가져오기
-  // const getTweets = async () => {
-  //   // 모든 트윗을 가져오게 하는 조건
-  //   // 실시간은 아님
-  //   const dbTweets = await (
-  //     await getDocs(collection(getFirestore(), 'tweets'))
-  //   ).docs;
-  //   dbTweets.forEach(document => {
-  //     // 데이터 삭제 등의 제어를 위해 각 데이터의 유니크 아이디를 추가 저장한다.
-  //     const tweetObj = { ...document.data(), id: document.id };
-  //     return setTweets((prev: any) => {
-  //       // 불변성 지키면서 push 기능 수행
-  //       return [tweetObj, ...prev];
-  //     });
-  //   });
-  // };
-  // useEffect(() => {
-  //   console.log("myTweetContents,", myTweetContents);
-  // }, [myTweetContents]);
-
   useEffect(() => {
     // window.addEventListener("beforeunload", event => {
     //   // 표준에 따라 기본 동작 방지
@@ -165,10 +144,10 @@ const Home = (props: Props) => {
   }, [limitIndex]);
 
   const breakpointColumnsObj = {
-    default: 3,
-    1100: 2,
-    700: 2,
-    500: 2
+    default: 5,
+    1200: 4,
+    750: 2,
+    550: 1
   };
 
   const dummyTweetsObj: tweetObjType[] = [
@@ -259,47 +238,20 @@ const Home = (props: Props) => {
 
   // const tweetsPresent = tweets.map((tweetObj: tweetObjType) => {
   const tweetsPresent = dummyTweetsObj.map((tweetObj: tweetObjType) => {
-    const GET_HEIGHT = () => {
-      const heights = [137, 194, 215, 222, 255, 264, 263, 314];
-      const getHeight = (heights: Number[]) => {
-        return heights[Math.floor(Math.random() * heights.length)];
-      };
-      const result = getHeight(heights);
-      return result;
-    };
     return (
-      <>
-        <Tweet
-          key={tweetObj.id}
-          tweetObj={tweetObj}
-          // 내가 쓴 tweet만 제어하기 위한 조건
-          isOwner={tweetObj.creatorId === userInfo.uid}
-          getHeight={String(GET_HEIGHT())}
-        />
-      </>
+      <Tweet
+        key={tweetObj.id}
+        tweetObj={tweetObj}
+        // 내가 쓴 tweet만 제어하기 위한 조건
+        isOwner={tweetObj.creatorId === userInfo.uid}
+        getHeight={String(GET_HEIGHT())}
+      />
     );
   });
 
   return (
-    <>
+    <HomeContainer>
       <TweetFactory />
-      {/* <div>
-        {tweets.map((tweetObj: tweetObjType) => {
-          return (
-            <Tweet
-              key={tweetObj.id}
-              tweetObj={tweetObj}
-              // 내가 쓴 tweet만 제어하기 위한 조건
-              isOwner={tweetObj.creatorId === userInfo.uid}
-            />
-          );
-        })}
-      </div> */}
-      <button
-        onClick={() => dispatch(firebaseSlice.actions.increaseLimitIndex(5))}
-      >
-        load more ...
-      </button>
       <MarsonryWrapper>
         <Masonry
           breakpointCols={breakpointColumnsObj}
@@ -309,7 +261,13 @@ const Home = (props: Props) => {
           {tweetsPresent}
         </Masonry>
       </MarsonryWrapper>
-    </>
+
+      <button
+        onClick={() => dispatch(firebaseSlice.actions.increaseLimitIndex(5))}
+      >
+        load more ...
+      </button>
+    </HomeContainer>
   );
 };
 

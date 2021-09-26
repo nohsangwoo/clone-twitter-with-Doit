@@ -11,10 +11,15 @@ import styled from "styled-components";
 
 import { useHistory } from "react-router-dom";
 const TweetContainer = styled.div<{ getHeight: string }>`
+  display: flex;
+  justify-content: center;
+  width: 238px;
   height: ${props => props.getHeight}px;
   border: 1px solid black;
-  margin: 10px 0;
-  padding: 10px;
+  padding: 5px;
+  background-color: white;
+  border-radius: 13px;
+  position: relative;
 `;
 
 const TweetViewerWrapper = styled.div`
