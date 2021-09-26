@@ -8,6 +8,7 @@ const AdminMainVideoViewerContainer = styled.div`
 `;
 
 const VideoContentWrapper = styled.div`
+  border: 1px solid red;
   width: 360px;
   height: 700px;
   display: flex;

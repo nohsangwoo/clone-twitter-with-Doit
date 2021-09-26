@@ -5,14 +5,15 @@ import * as wss from "components/utils/wssConnection/wssConnection";
 import streamSlice from "store/reducers/streamSlice";
 import styled from "styled-components";
 import UserList from "./components/UserList";
-import ControlPanel from "components/utils/mediaUtils/ControlPanel";
+// import ControlPanel from "components/utils/mediaUtils/ControlPanel";
 import MediaControlContainer from "components/containers/MediaControlContainer";
-import Controller from "components/utils/controller/Controller";
+// import Controller from "components/utils/controller/Controller";
 import { useHistory, useLocation } from "react-router-dom";
 import { RootState } from "store/store";
 import socketSlice from "store/reducers/socketSlice";
 import { deleteDoc, doc, getFirestore } from "firebase/firestore";
 import { deleteObject, getStorage, ref } from "firebase/storage";
+import ClientMainVideoViewer from "./components/ClientMainVideoViewer";
 
 type locationStateType = {
   roomId: string;
@@ -153,8 +154,9 @@ const MyRoom = (props: Props) => {
   });
   return (
     <div>
-      <ControlPanel />
-      <Controller />
+      <ClientMainVideoViewer />
+      {/* <ControlPanel /> */}
+      {/* <Controller /> */}
       <UserListWrapper>
         <UserList />
       </UserListWrapper>

@@ -4,7 +4,9 @@ import { deleteObject, getStorage, ref } from "firebase/storage";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
-const TweetContainer = styled.div``;
+const TweetContainer = styled.div`
+  width: 238px;
+`;
 const TweetBGContainer = styled.div<{ getHeight: string; bgurl: string }>`
   display: flex;
   justify-content: center;
