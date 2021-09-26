@@ -196,3 +196,5 @@ infinite scroll을 위한 기능 구현 버튼형식으로 구현 완료
 ## this platform is can create only one room
 
 and then waiting other person
+
+## 트윗 생성과 동시에 영상통화를 위한 room 생성

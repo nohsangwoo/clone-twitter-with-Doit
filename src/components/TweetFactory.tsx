@@ -9,21 +9,18 @@ import {
 } from "firebase/storage";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "store/store";
-
+import { useHistory } from "react-router-dom";
 import * as wss from "components/utils/wssConnection/wssConnection";
 import socketSlice from "store/reducers/socketSlice";
 import tweetSlice from "store/reducers/tweetSlice";
 
+export type locationStateType = {
+  roomId: string;
+};
 type Props = {};
 
-type HandlieJoinRoomType = {
-  socketId: string;
-  roomId: string;
-  counselType: string;
-  userType: string;
-};
-
 const TweetFactory = (props: Props) => {
+  const history = useHistory();
   const [tweet, setTweet] = useState("");
   const [attachment, setAttachment] = useState<
     string | ArrayBuffer | null | undefined
@@ -33,32 +30,11 @@ const TweetFactory = (props: Props) => {
   >(null);
   const dispatch = useDispatch();
   const userInfo = useSelector((state: RootState) => state.users.userInfo);
-  const socketId = useSelector((state: RootState) => state?.socket?.socket?.id);
   const myTweetContents = useSelector(
     (state: RootState) => state?.tweets.myTweet
   );
   // Create a root reference
   const storage = getStorage();
-
-  const handleJoinRoom = useCallback(
-    roomId => {
-      // let roomId = uuidV1();
-
-      console.log("uuid", roomId);
-
-      const data: HandlieJoinRoomType = {
-        socketId: socketId,
-        roomId,
-        counselType: "Video",
-        userType: "Client"
-      };
-
-      console.log("Join room Button activated");
-      dispatch(socketSlice.actions.getRoomHostInfo(data));
-      wss.joinRoom({ roomId: roomId });
-    },
-    [socketId]
-  );
 
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let theFile;
@@ -146,7 +122,14 @@ const TweetFactory = (props: Props) => {
 
         // 트윗이 만들어졌아면 myRoom으로 history.push 한다음
         // 내 고유 roomId로 joinroom 실행 하도록 바꿔야함
-        handleJoinRoom(uuid);
+        // history.push("/myRoom");
+        const locationState: locationStateType = { roomId: uuid };
+        history.push({
+          pathname: "/myRoom",
+          // search: '?query=abc',
+          state: locationState
+        });
+        // handleJoinRoom(uuid);
       } catch (err) {}
       clearAfterUpload();
     };
