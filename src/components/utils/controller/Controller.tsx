@@ -68,7 +68,8 @@ const Controller = () => {
     console.log("Join room Button activated");
     dispatch(socketSlice.actions.getRoomHostInfo(data));
     wss.joinRoom({ roomId: roomId });
-  }, [socketId, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socketId]);
 
   useEffect(() => {
     console.log("socketId", socketId);

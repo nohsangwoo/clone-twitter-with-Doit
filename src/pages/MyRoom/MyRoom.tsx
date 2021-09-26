@@ -86,8 +86,8 @@ const MyRoom = (props: Props) => {
       dispatch(socketSlice.actions.getRoomHostInfo(data));
       wss.joinRoom({ roomId: roomId });
     },
-
-    [socketId, dispatch]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [socketId]
   );
 
   const onDelete = async (docId: string, uploadPath: string) => {
@@ -132,7 +132,8 @@ const MyRoom = (props: Props) => {
     dispatch(streamSlice.actions.getMyStreamSagaTrigger());
     dispatch(getMyDevices());
     wss.connectWithWebSocket();
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (location?.state?.roomId) {

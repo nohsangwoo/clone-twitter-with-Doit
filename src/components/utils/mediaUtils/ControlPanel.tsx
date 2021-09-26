@@ -109,7 +109,8 @@ const ControlPanel = () => {
     if (myStream instanceof MediaStream) {
       dispatch(getMyDevices());
     }
-  }, [dispatch, myStream, counterIndexForForceUpdate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [myStream, counterIndexForForceUpdate]);
 
   useEffect(() => {}, [
     videoDevices,

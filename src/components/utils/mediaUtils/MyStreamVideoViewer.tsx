@@ -76,7 +76,8 @@ const MyStreamVideoViewer = (props: Props): JSX.Element => {
         console.error(e.message);
       }
     }
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     console.log("rerender for myStream", myStream);
 
@@ -94,7 +95,8 @@ const MyStreamVideoViewer = (props: Props): JSX.Element => {
   useEffect(() => {
     // 해당 컴포넌트가 새로 고침후 접속시 video tag는 꼭 muted속성이 true여야 하니깐 초기화 하는내용
     dispatch(devicesSlice.actions.setGlobalMutedForAllVideoTag(true));
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSetMainStream = () => {
     if (props?.isSetStream) {
