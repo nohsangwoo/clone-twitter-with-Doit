@@ -11,23 +11,23 @@ import {
 } from "@firebase/auth";
 
 const Auth = () => {
-  //   const onSocialClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
-  //     const {
-  //       currentTarget: { name }
-  //     } = event;
-  //     let provider;
-  //     if (name === "google") {
-  //       provider = new authService.GoogleAuthProvider();
-  //     } else if (name === "github") {
-  //       provider = new authService.GithubAuthProvider();
-  //     }
+  // const onSocialClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   const {
+  //     currentTarget: { name }
+  //   } = event;
+  //   let provider;
+  //   if (name === "google") {
+  //     provider = new authService.GoogleAuthProvider();
+  //   } else if (name === "github") {
+  //     provider = new authService.GithubAuthProvider();
+  //   }
 
-  //     let data;
-  //     if (provider) {
-  //       data = await authService.signInWithPopup(auth, provider);
-  //     }
-  //     console.log("social login data: ", data);
-  //   };
+  //   let data;
+  //   if (provider) {
+  //     data = await authService.signInWithPopup(auth, provider);
+  //   }
+  //   console.log("social login data: ", data);
+  // };
 
   const onSocialClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     const {
@@ -65,9 +65,9 @@ const Auth = () => {
         <button onClick={onSocialClick} name="google">
           Continue with Google
         </button>
-        {/* <button onClick={onSocialClick} name="github">
+        <button onClick={onSocialClick} name="github">
           Continue with Github
-        </button> */}
+        </button>
       </div>
     </div>
   );
