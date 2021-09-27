@@ -240,3 +240,5 @@ set default background image
 ## myRoom modal 형식으로 띄움
 
 ## 리렌더링 관련 버그 수정
+
+## control panel 추가

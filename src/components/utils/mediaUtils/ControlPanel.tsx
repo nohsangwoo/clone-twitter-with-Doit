@@ -1,19 +1,32 @@
 import React, { useState, useEffect } from "react";
 import * as webRTCHandler from "../webRTC/webRTCHandler";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { RootState } from "../../../store/store";
 import { useSelector, useDispatch } from "react-redux";
 import { getMyDevices } from "store/actions/devicesActions";
 
-const ControlPanelContainer = styled.div`
+const ControlPanelContainer = styled.div<{ isShowControlPanel: string }>`
   position: fixed;
-  top: 20%;
-  left: 20%;
-  height: 300px;
-  width: 400px;
-  z-index: 10;
-  border: 1px solid red;
+  bottom: 10px;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 55%);
+  max-height: 300px;
+  width: 100%;
+  ${props =>
+    props.isShowControlPanel === "true"
+      ? css`
+          z-index: 13;
+          opacity: 1;
+          left: 0;
+        `
+      : css`
+          z-index: -20;
+          opacity: 0;
+          left: -100%;
+        `}
+
+  transition: all 0.5s;
+  background: white;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -77,7 +90,10 @@ const SharingButtonWrapper = styled.div<{ isScreenSharingActivate: string }>`
   }
 `;
 
-const ControlPanel = () => {
+interface Props {
+  isShowControlPanel: string;
+}
+const ControlPanel = ({ isShowControlPanel }: Props) => {
   const [counterIndexForForceUpdate, setCounterIndexForForceUpdate] =
     useState(0);
 
@@ -128,7 +144,7 @@ const ControlPanel = () => {
     webRTCHandler.switchForScreenSharingStream();
   };
   return (
-    <ControlPanelContainer>
+    <ControlPanelContainer isShowControlPanel={isShowControlPanel}>
       {/* 디바이스의 장치가 변경됐을때(예를들면 에어팟 블루투스 연결 및 해제) 연결된 장치리스트 최신화 기능 */}
       {/* 연결된 비디오 및 오디오 장치리스트를 웹에서 실시간 감지는 못하니 수동으로라도 최신화 시켜주기 */}
       <ForceUpdateForGetDivces

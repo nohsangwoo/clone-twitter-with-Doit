@@ -13,6 +13,7 @@ import { deleteDoc, doc, getFirestore } from "firebase/firestore";
 import { deleteObject, getStorage, ref } from "firebase/storage";
 import ClientMainVideoViewer from "./components/ClientMainVideoViewer";
 import toggleSlice from "store/reducers/toggleSlice";
+import ControlPanel from "components/utils/mediaUtils/ControlPanel";
 
 const MyRoomContainer = styled.div`
   display: flex;
@@ -65,6 +66,28 @@ const CloseBTN = styled.div`
     transform: scale(0.98);
   }
 `;
+
+const SettingBTN = styled.div`
+  cursor: pointer;
+  position: fixed;
+  top: 90px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 55%);
+  transition: all 0.5s;
+  &:hover {
+    transform: scale(1.08);
+  }
+  &:active {
+    transform: scale(0.98);
+  }
+`;
 interface Props {
   selectedRoomId: string;
 }
@@ -73,6 +96,7 @@ const MyRoom = ({ selectedRoomId }: Props) => {
   const history = useHistory();
 
   const [chatOpen, setChatOpen] = useState(false);
+  const [isShowControlPanel, setIsShowControlPanel] = useState<boolean>(false);
   const socketId = useSelector((state: RootState) => state?.socket?.socket?.id);
   const [error, setError] = useState<Error>();
 
@@ -197,10 +221,15 @@ const MyRoom = ({ selectedRoomId }: Props) => {
       >
         close
       </CloseBTN>
+      <SettingBTN onClick={() => setIsShowControlPanel(prev => !prev)}>
+        settings
+      </SettingBTN>
+
+      <ControlPanel isShowControlPanel={String(isShowControlPanel)} />
       <MainViewWrapper>
         <ClientMainVideoViewer />
       </MainViewWrapper>
-      {/* <ControlPanel /> */}
+
       {/* <Controller /> */}
       <UserListWrapper>
         <UserList />
