@@ -3,6 +3,9 @@ import { deleteDoc, getFirestore, doc, updateDoc } from "firebase/firestore";
 import { deleteObject, getStorage, ref } from "firebase/storage";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import toggleSlice from "store/reducers/toggleSlice";
+import tweetSlice from "store/reducers/tweetSlice";
 
 const TweetContainer = styled.div`
   width: 238px;
@@ -72,9 +75,9 @@ const TweetContents = styled.div`
   box-shadow: 0 1px 4px rgb(0 0 0 / 55%);
 `;
 
-type locationStateType = {
-  roomId: string;
-};
+// type locationStateType = {
+//   roomId: string;
+// };
 
 type tweetObjType = {
   id: string;
@@ -92,6 +95,7 @@ type Props = {
 };
 const Tweet = ({ tweetObj, isOwner, getHeight }: Props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [error, setError] = useState<Error>();
   const [editing, setEditing] = useState<boolean>(false);
   const [newTweet, setNewTweet] = useState<string>("");
@@ -107,6 +111,8 @@ const Tweet = ({ tweetObj, isOwner, getHeight }: Props) => {
         .then(() => {
           console.log("Delete succeeded!");
 
+          dispatch(tweetSlice.actions.setMyTweet(null));
+          history.replace("/");
           if (tweetObj.uploadPath !== "") {
             console.log("image delete progress!");
 
@@ -130,7 +136,11 @@ const Tweet = ({ tweetObj, isOwner, getHeight }: Props) => {
         .catch(error => {
           setError(error.message);
         })
-        .finally(() => console.log("finally"));
+        .finally(() => {
+          console.log("finally");
+          // eslint-disable-next-line no-restricted-globals
+          location.reload();
+        });
     }
   };
 
@@ -158,15 +168,19 @@ const Tweet = ({ tweetObj, isOwner, getHeight }: Props) => {
     setEditing(false);
   };
 
-  const handleConnectRoom = () => {
-    console.log(tweetObj);
-
-    const locationState: locationStateType = { roomId: tweetObj.roomId };
-    history.push({
-      pathname: "/myRoom",
-      // search: '?query=abc',
-      state: locationState
-    });
+  const handleConnectRoom = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    // const locationState: locationStateType = { roomId: tweetObj.roomId };
+    // history.push({
+    //   pathname: "/myRoom",
+    //   // search: '?query=abc',
+    //   state: locationState
+    // });
+    dispatch(toggleSlice.actions.setShowMyRoom());
+    dispatch(tweetSlice.actions.setSelectedOtherTweet(tweetObj));
+    dispatch(tweetSlice.actions.setSelectedRoomId(tweetObj.roomId));
   };
   useEffect(() => {
     console.log("use Effect error in Tweet");
@@ -185,7 +199,7 @@ const Tweet = ({ tweetObj, isOwner, getHeight }: Props) => {
             ? baseBgImage
             : tweetObj.attachmentURL
         }
-        onClick={handleConnectRoom}
+        onClick={e => handleConnectRoom(e)}
       >
         <TweetBGHolder
           getHeight={getHeight}
@@ -193,7 +207,9 @@ const Tweet = ({ tweetObj, isOwner, getHeight }: Props) => {
         ></TweetBGHolder>
       </TweetBGContainer>
       {/* 하단메뉴 */}
-      <TweetContents>
+      <TweetContents
+        onClick={() => dispatch(toggleSlice.actions.setDisableMyRoom())}
+      >
         {editing ? (
           <>
             <form onSubmit={onSubmit}>

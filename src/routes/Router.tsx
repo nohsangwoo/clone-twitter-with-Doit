@@ -8,7 +8,6 @@ import {
 import Auth from "../pages/Auth/Auth";
 import Navigation from "../components/Navigation";
 import Home from "../pages/Home/Home";
-import MyRoom from "../pages/MyRoom/MyRoom";
 import Profile from "components/Profile";
 import { auth } from "fbase";
 import { useDispatch } from "react-redux";
@@ -44,9 +43,9 @@ const AppRouter = ({ isLoggedIn }: Props) => {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route exact path="/myroom">
+          {/* <Route exact path="/myroom">
             <MyRoom />
-          </Route>
+          </Route> */}
           <Route exact path="/profile">
             <Profile refreshUser={refreshUser} />
           </Route>

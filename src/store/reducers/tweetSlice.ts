@@ -11,10 +11,14 @@ type myTweetType = {
 };
 type InitialState = {
   myTweet: myTweetType | null;
+  selectedOtherTweet: myTweetType | null;
+  selectedRoomId: string;
 };
 
 const initialState: InitialState = {
-  myTweet: null
+  myTweet: null,
+  selectedOtherTweet: null,
+  selectedRoomId: ""
 };
 
 const tweetSlice = createSlice({
@@ -23,6 +27,12 @@ const tweetSlice = createSlice({
   reducers: {
     setMyTweet(state, action) {
       state.myTweet = action.payload;
+    },
+    setSelectedOtherTweet(state, action) {
+      state.selectedOtherTweet = action.payload;
+    },
+    setSelectedRoomId(state, action) {
+      state.selectedRoomId = action.payload;
     }
   }
 });

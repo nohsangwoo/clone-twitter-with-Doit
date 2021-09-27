@@ -21,10 +21,11 @@ import { deleteObject, getStorage, ref } from "firebase/storage";
 import Masonry from "react-masonry-css";
 import styled from "styled-components";
 import "./masornyLayout.css";
-import GET_HEIGHT from "components/utils/getRandomHeigth";
+// import GET_HEIGHT from "components/utils/getRandomHeigth";
 import streamSlice from "store/reducers/streamSlice";
 import { getMyDevices } from "store/actions/devicesActions";
 import * as wss from "components/utils/wssConnection/wssConnection";
+import MyRoom from "pages/MyRoom";
 const HomeContainer = styled.div`
   width: 100%;
 `;
@@ -69,11 +70,27 @@ type tweetObjType = {
   uploadPath: string;
 };
 
+const MyRoomContainer = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  background: white;
+  border: 1px solid red;
+  z-index: 10;
+`;
 type Props = {};
 
 const Home = (props: Props) => {
   const limitIndex = useSelector(
     (state: RootState) => state.firebase.limitIndex
+  );
+  const selectedRoomId = useSelector(
+    (state: RootState) => state.tweets.selectedRoomId
+  );
+  const isShowMyroom = useSelector(
+    (state: RootState) => state.toggles.isShowMyroom
   );
   const [tweets, setTweets] = useState<any>([]);
   const [error, setError] = useState<Error>();
@@ -282,11 +299,25 @@ const Home = (props: Props) => {
   //     uploadPath: ""
   //   }
   // ];
+  useEffect(() => {
+    console.log("isShowMyroom in home", isShowMyroom);
+  }, [isShowMyroom]);
 
   // Convert array to JSX items
 
   // const tweetsPresent = tweets.map((tweetObj: tweetObjType) => {
   const tweetsPresent = tweets.map((tweetObj: tweetObjType) => {
+    const GET_HEIGHT = () => {
+      const heights = [
+        130, 175, 238, 236, 296, 316, 325, 335, 354, 369, 374, 420, 467, 497
+      ];
+      const getHeight = (heights: Number[]) => {
+        return heights[Math.floor(Math.random() * heights.length)];
+      };
+      const result = getHeight(heights);
+      return result;
+    };
+
     return (
       <Tweet
         key={tweetObj.id}
@@ -318,6 +349,11 @@ const Home = (props: Props) => {
           more ...
         </LoadMoreBTN>
       </LoadMoreWrapper>
+      {isShowMyroom && (
+        <MyRoomContainer>
+          <MyRoom selectedRoomId={selectedRoomId} />
+        </MyRoomContainer>
+      )}
     </HomeContainer>
   );
 };

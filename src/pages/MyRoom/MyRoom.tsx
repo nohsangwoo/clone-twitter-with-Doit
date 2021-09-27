@@ -6,12 +6,13 @@ import UserList from "./components/UserList";
 // import ControlPanel from "components/utils/mediaUtils/ControlPanel";
 import MediaControlContainer from "components/containers/MediaControlContainer";
 // import Controller from "components/utils/controller/Controller";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { RootState } from "store/store";
 import socketSlice from "store/reducers/socketSlice";
 import { deleteDoc, doc, getFirestore } from "firebase/firestore";
 import { deleteObject, getStorage, ref } from "firebase/storage";
 import ClientMainVideoViewer from "./components/ClientMainVideoViewer";
+import toggleSlice from "store/reducers/toggleSlice";
 
 const MyRoomContainer = styled.div`
   display: flex;
@@ -26,9 +27,6 @@ const MainViewWrapper = styled.div`
   justify-content: center;
 `;
 
-type locationStateType = {
-  roomId: string;
-};
 const UserListWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -46,11 +44,34 @@ type HandlieJoinRoomType = {
   userType: string;
 };
 
-interface Props {}
+const CloseBTN = styled.div`
+  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 55%);
+  transition: all 0.5s;
+  &:hover {
+    transform: scale(1.08);
+  }
+  &:active {
+    transform: scale(0.98);
+  }
+`;
+interface Props {
+  selectedRoomId: string;
+}
 
-const MyRoom = (props: Props) => {
+const MyRoom = ({ selectedRoomId }: Props) => {
   const history = useHistory();
-  const location = useLocation<locationStateType>();
+
   const [chatOpen, setChatOpen] = useState(false);
   const socketId = useSelector((state: RootState) => state?.socket?.socket?.id);
   const [error, setError] = useState<Error>();
@@ -86,69 +107,43 @@ const MyRoom = (props: Props) => {
     [socketId]
   );
 
-  const onDelete = useCallback(
-    async (docId: string, uploadPath: string) => {
-      console.log("delete doc id", myTweetContents?.docId);
-      await deleteDoc(doc(getFirestore(), "tweets", docId))
-        .then(() => {
-          console.log("Delete succeeded!");
+  const onDelete = async (docId: string, uploadPath: string) => {
+    console.log("delete doc id", myTweetContents?.docId);
+    await deleteDoc(doc(getFirestore(), "tweets", docId))
+      .then(() => {
+        console.log("Delete succeeded!");
 
-          if (uploadPath !== "") {
-            console.log("image delete progress!");
+        if (uploadPath !== "") {
+          console.log("image delete progress!");
 
-            const storage = getStorage();
+          const storage = getStorage();
 
-            // Create a reference to the file to delete
-            const desertRef = ref(storage, uploadPath);
+          // Create a reference to the file to delete
+          const desertRef = ref(storage, uploadPath);
 
-            // Delete the file
-            deleteObject(desertRef)
-              .then(() => {
-                // File deleted successfully
-                console.log("File deleted successfully");
-              })
-              .catch(error => {
-                // Uh-oh, an error occurred!
-                console.log("Uh-oh, an error occurred!");
-              });
-          }
-        })
-        .catch(error => {
-          setError(error.message);
-        })
-        .finally(() => console.log("finally"));
-    },
-    [myTweetContents?.docId]
-  );
-
-  useEffect(() => {
-    console.log("useEffect for location");
-
-    if (!location?.state?.roomId) {
-      history.push("/");
-    }
-  }, [history, location]);
+          // Delete the file
+          deleteObject(desertRef)
+            .then(() => {
+              // File deleted successfully
+              console.log("File deleted successfully");
+            })
+            .catch(error => {
+              // Uh-oh, an error occurred!
+              console.log("Uh-oh, an error occurred!");
+            });
+        }
+      })
+      .catch(error => {
+        setError(error.message);
+      })
+      .finally(() => {
+        console.log("finally");
+        // eslint-disable-next-line no-restricted-globals
+        location.reload();
+      });
+  };
 
   useEffect(() => {
-    console.log("useEffect for joinRoom!");
-    if (location?.state?.roomId) {
-      console.log(
-        "location state 이 존재하니 자동으로 방접속",
-        location.state.roomId
-      );
-      handleJoinRoom(location.state.roomId);
-    }
-  }, [location?.state?.roomId, handleJoinRoom]);
-
-  useEffect(() => {
-    console.log("useEffect for error");
-    if (error) {
-      alert(error);
-    }
-  }, [error]);
-
-  useEffect(() => {
-    console.log("useEffect for 브라우저 종료");
     // window.addEventListener("beforeunload", event => {
     //   // 표준에 따라 기본 동작 방지
     //   event.preventDefault();
@@ -156,6 +151,7 @@ const MyRoom = (props: Props) => {
     //   event.returnValue = "ㅎㅎㅎㅎ";
     // });
     // console.log("나기기 확인 이벤트");
+    console.log("useEffect 브라우저 종료 확인 동작 콘솔");
 
     // 웹 브라우저 윈도우 창 종료 이벤트
     window.addEventListener("unload", event => {
@@ -165,9 +161,42 @@ const MyRoom = (props: Props) => {
         onDelete(myTweetContents?.docId, myTweetContents?.uploadPath);
       }
     });
-  }, [myTweetContents, onDelete]);
+  });
+  useEffect(() => {
+    console.log("useEffect for location");
+
+    if (selectedRoomId.length === 0) {
+      history.push("/");
+    }
+  }, [history, selectedRoomId]);
+
+  useEffect(() => {
+    console.log("useEffect for joinRoom!");
+    if (selectedRoomId) {
+      console.log("location state 이 존재하니 자동으로 방접속", selectedRoomId);
+      handleJoinRoom(selectedRoomId);
+    }
+  }, [selectedRoomId, handleJoinRoom]);
+
+  useEffect(() => {
+    console.log("useEffect for error");
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
+
   return (
     <MyRoomContainer>
+      <CloseBTN
+        onClick={() => {
+          dispatch(toggleSlice.actions.setDisableMyRoom());
+          if (myTweetContents) {
+            onDelete(myTweetContents?.docId, myTweetContents?.uploadPath);
+          }
+        }}
+      >
+        close
+      </CloseBTN>
       <MainViewWrapper>
         <ClientMainVideoViewer />
       </MainViewWrapper>

@@ -11,9 +11,9 @@ import {
 // import {} from "firebase/firebase/store"
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "store/store";
-import { useHistory } from "react-router-dom";
 import tweetSlice from "store/reducers/tweetSlice";
 import styled from "styled-components";
+import toggleSlice from "store/reducers/toggleSlice";
 
 const TweetFactoryContainer = styled.div`
   display: flex;
@@ -89,14 +89,13 @@ const FileInputBox = styled.input`
   cursor: pointer;
 `;
 
-type locationStateType = {
-  roomId: string;
-};
+// type locationStateType = {
+//   roomId: string;
+// };
 
 type Props = {};
 
 const TweetFactory = (props: Props) => {
-  const history = useHistory();
   const [tweet, setTweet] = useState("");
   const [attachment, setAttachment] = useState<
     string | ArrayBuffer | null | undefined
@@ -109,6 +108,7 @@ const TweetFactory = (props: Props) => {
   const myTweetContents = useSelector(
     (state: RootState) => state?.tweets.myTweet
   );
+
   // Create a root reference
   const storage = getStorage();
 
@@ -196,15 +196,21 @@ const TweetFactory = (props: Props) => {
           tweetSlice.actions.setMyTweet({ docId: docRef.id, ...tweetContents })
         );
 
+        dispatch(tweetSlice.actions.setSelectedRoomId(uuid));
+
         // 트윗이 만들어졌아면 myRoom으로 history.push 한다음
         // 내 고유 roomId로 joinroom 실행 하도록 바꿔야함
         // history.push("/myRoom");
-        const locationState: locationStateType = { roomId: uuid };
-        history.push({
-          pathname: "/myRoom",
-          // search: '?query=abc',
-          state: locationState
-        });
+        // const locationState: locationStateType = { roomId: uuid };
+        // history.push({
+        //   pathname: "/myRoom",
+        //   // search: '?query=abc',
+        //   state: locationState
+        // });
+
+        dispatch(toggleSlice.actions.setShowMyRoom());
+
+        // <MyRoom selectedRoomId={selectedRoomId} />;
       } catch (err) {}
       clearAfterUpload();
     };

@@ -5,13 +5,15 @@ type InitialState = {
   isAlomodeon: boolean;
   isModeSelect: boolean;
   isScreenSharingActive: boolean;
+  isShowMyroom: boolean;
 };
 
 const initialState: InitialState = {
   isMovieOn: false,
   isAlomodeon: true,
   isModeSelect: true,
-  isScreenSharingActive: false
+  isScreenSharingActive: false,
+  isShowMyroom: false
 };
 
 const toggleSlice = createSlice({
@@ -29,6 +31,12 @@ const toggleSlice = createSlice({
     },
     setIsScreenSharingActive(state, action) {
       state.isScreenSharingActive = action.payload;
+    },
+    setShowMyRoom(state) {
+      state.isShowMyroom = true;
+    },
+    setDisableMyRoom(state) {
+      state.isShowMyroom = false;
     }
   },
   extraReducers: {}
