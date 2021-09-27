@@ -10,6 +10,7 @@ function App(): JSX.Element {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("App.js1");
     // 로그인된 정보가 저장된다면 로그인 이후의 처리를 위한 작업
     authService.onAuthStateChanged(auth, user => {
       console.log("user info obj", user);

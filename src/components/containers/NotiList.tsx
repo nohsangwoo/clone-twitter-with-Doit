@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { List, ListItemText, ListItem } from "@material-ui/core";
-
 import VideoIcon from "@material-ui/icons/Videocam";
 import ChatIcon from "@material-ui/icons/Sms";
 import VoiceIcon from "@material-ui/icons/Mic";
@@ -10,7 +9,6 @@ import { joinRoom } from "../utils/wssConnection/wssConnection";
 import { RootState } from "../../store/store";
 import toggleSlice from "store/reducers/toggleSlice";
 import socketSlice, { roomHostInfoType } from "store/reducers/socketSlice";
-import { actionChannel } from "redux-saga/effects";
 import counterSlice from "store/reducers/counterSlice";
 
 const ListItemWrapper = styled.div`
@@ -48,11 +46,6 @@ const NotiList = () => {
 
   const dispatch = useDispatch();
   console.log("notilist otherUsersInfoList: ", otherUsersInfoList);
-
-  // useEffect(() => {
-  //   let count: number | undefined =
-  //     document.getElementById("noti-list")?.childElementCount;
-  // }, []);
 
   const noticeSellector = (Type?: string): JSX.Element => {
     switch (Type) {

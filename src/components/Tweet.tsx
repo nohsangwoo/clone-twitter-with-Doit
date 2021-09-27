@@ -169,6 +169,7 @@ const Tweet = ({ tweetObj, isOwner, getHeight }: Props) => {
     });
   };
   useEffect(() => {
+    console.log("use Effect error in Tweet");
     if (error) {
       alert(error);
     }

@@ -104,20 +104,13 @@ const ControlPanel = () => {
 
   const myStream = useSelector((state: RootState) => state.streams.myStream);
   useEffect(() => {
-    console.log("rerendering in ContrlPanel");
+    console.log("useEffect rerendering in ContrlPanel");
     // counterIndexForForceUpdate변수를 이용하여 장치리스트를 다시 불러오기 위한 작업
     if (myStream instanceof MediaStream) {
       dispatch(getMyDevices());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [myStream, counterIndexForForceUpdate]);
-
-  useEffect(() => {}, [
-    videoDevices,
-    videoDevices.length,
-    selectedVideoDeviceLabel,
-    selectedAudioDeviceLabel
-  ]);
 
   const handleVideoSwitching = async (
     event: React.ChangeEvent<HTMLSelectElement>

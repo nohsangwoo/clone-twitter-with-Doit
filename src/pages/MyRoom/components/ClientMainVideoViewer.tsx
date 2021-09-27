@@ -33,6 +33,7 @@ const ClientMainVideoViewer = (props: Props): JSX.Element => {
   );
 
   useEffect(() => {
+    console.log("useEffect for main view");
     if (selectedStream?.id) {
       userVideo.current.srcObject = selectedStream;
     } else {

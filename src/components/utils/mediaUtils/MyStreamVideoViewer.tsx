@@ -6,11 +6,9 @@ import { useHistory, useLocation } from "react-router-dom";
 import { RouterPath } from "../routerPath";
 import { IconButton, Tooltip } from "@material-ui/core";
 import Fullscreen from "@material-ui/icons/Fullscreen";
-import * as wss from "../wssConnection/wssConnection";
 
 import { RootState } from "store/store";
 import streamSlice from "store/reducers/streamSlice";
-import { getMyDevices } from "store/actions/devicesActions";
 
 const VideoContainer = styled.div`
   position: relative;
@@ -62,24 +60,25 @@ const MyStreamVideoViewer = (props: Props): JSX.Element => {
 
   const myStream = useSelector((state: RootState) => state.streams.myStream);
 
-  console.log("myStream", myStream);
+  // console.log("myStream", myStream);
 
+  // useEffect(() => {
+  //   console.log("useEffect first connect to stream and wss");
+  //   try {
+  //     dispatch(streamSlice.actions.getMyStreamSagaTrigger());
+
+  //     dispatch(getMyDevices());
+
+  //     wss.connectWithWebSocket();
+  //   } catch (e) {
+  //     if (e instanceof TypeError) {
+  //       console.error(e.message);
+  //     }
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
   useEffect(() => {
-    try {
-      dispatch(streamSlice.actions.getMyStreamSagaTrigger());
-
-      dispatch(getMyDevices());
-
-      wss.connectWithWebSocket();
-    } catch (e) {
-      if (e instanceof TypeError) {
-        console.error(e.message);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
-    console.log("rerender for myStream", myStream);
+    console.log("useEffect rerender for myStream", myStream);
 
     try {
       if (myStream instanceof MediaStream) {
@@ -93,6 +92,7 @@ const MyStreamVideoViewer = (props: Props): JSX.Element => {
   }, [myStream]);
 
   useEffect(() => {
+    console.log("useEffect for mute");
     // 해당 컴포넌트가 새로 고침후 접속시 video tag는 꼭 muted속성이 true여야 하니깐 초기화 하는내용
     dispatch(devicesSlice.actions.setGlobalMutedForAllVideoTag(true));
     // eslint-disable-next-line react-hooks/exhaustive-deps

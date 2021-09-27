@@ -72,7 +72,7 @@ const Controller = () => {
   }, [socketId]);
 
   useEffect(() => {
-    console.log("socketId", socketId);
+    console.log("useEffect socketId", socketId);
     // effect;
     // return () => {
     //   cleanup;

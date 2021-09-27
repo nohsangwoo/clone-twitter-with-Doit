@@ -22,7 +22,9 @@ import Masonry from "react-masonry-css";
 import styled from "styled-components";
 import "./masornyLayout.css";
 import GET_HEIGHT from "components/utils/getRandomHeigth";
-
+import streamSlice from "store/reducers/streamSlice";
+import { getMyDevices } from "store/actions/devicesActions";
+import * as wss from "components/utils/wssConnection/wssConnection";
 const HomeContainer = styled.div`
   width: 100%;
 `;
@@ -82,8 +84,12 @@ const Home = (props: Props) => {
   );
 
   useEffect(() => {
-    console.log("myTweetContents", myTweetContents);
-  }, [myTweetContents]);
+    console.log("useEffect for first connect");
+    dispatch(streamSlice.actions.getMyStreamSagaTrigger());
+    dispatch(getMyDevices());
+    wss.connectWithWebSocket();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   const onDelete = async (docId: string, uploadPath: string) => {
     console.log("delete doc id", myTweetContents?.docId);
@@ -125,6 +131,7 @@ const Home = (props: Props) => {
     //   event.returnValue = "ㅎㅎㅎㅎ";
     // });
     // console.log("나기기 확인 이벤트");
+    console.log("useEffect 브라우저 종료 확인 동작 콘솔");
 
     // 웹 브라우저 윈도우 창 종료 이벤트
     window.addEventListener("unload", event => {
@@ -137,6 +144,7 @@ const Home = (props: Props) => {
   });
 
   useEffect(() => {
+    console.log("useEffect for getquery");
     // getTweets();
     // 실시간으로 데이터를 데이터베이스에서 가져오기
     // 여기에 각종 조건 넣어두기(정렬, 조건)
@@ -167,6 +175,8 @@ const Home = (props: Props) => {
   }, [limitIndex]);
 
   useEffect(() => {
+    console.log("useEffect for error");
+
     if (error) {
       alert(error);
     }

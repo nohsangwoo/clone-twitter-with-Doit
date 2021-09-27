@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getMyDevices } from "store/actions/devicesActions";
 import * as wss from "components/utils/wssConnection/wssConnection";
-import streamSlice from "store/reducers/streamSlice";
 import styled from "styled-components";
 import UserList from "./components/UserList";
 // import ControlPanel from "components/utils/mediaUtils/ControlPanel";
@@ -56,9 +54,7 @@ const MyRoom = (props: Props) => {
   const [chatOpen, setChatOpen] = useState(false);
   const socketId = useSelector((state: RootState) => state?.socket?.socket?.id);
   const [error, setError] = useState<Error>();
-  const otherStream = useSelector(
-    (state: RootState) => state.streams.otherStream
-  );
+
   const myTweetContents = useSelector(
     (state: RootState) => state.tweets.myTweet
   );
@@ -90,52 +86,51 @@ const MyRoom = (props: Props) => {
     [socketId]
   );
 
-  const onDelete = async (docId: string, uploadPath: string) => {
-    console.log("delete doc id", myTweetContents?.docId);
-    await deleteDoc(doc(getFirestore(), "tweets", docId))
-      .then(() => {
-        console.log("Delete succeeded!");
+  const onDelete = useCallback(
+    async (docId: string, uploadPath: string) => {
+      console.log("delete doc id", myTweetContents?.docId);
+      await deleteDoc(doc(getFirestore(), "tweets", docId))
+        .then(() => {
+          console.log("Delete succeeded!");
 
-        if (uploadPath !== "") {
-          console.log("image delete progress!");
+          if (uploadPath !== "") {
+            console.log("image delete progress!");
 
-          const storage = getStorage();
+            const storage = getStorage();
 
-          // Create a reference to the file to delete
-          const desertRef = ref(storage, uploadPath);
+            // Create a reference to the file to delete
+            const desertRef = ref(storage, uploadPath);
 
-          // Delete the file
-          deleteObject(desertRef)
-            .then(() => {
-              // File deleted successfully
-              console.log("File deleted successfully");
-            })
-            .catch(error => {
-              // Uh-oh, an error occurred!
-              console.log("Uh-oh, an error occurred!");
-            });
-        }
-      })
-      .catch(error => {
-        setError(error.message);
-      })
-      .finally(() => console.log("finally"));
-  };
+            // Delete the file
+            deleteObject(desertRef)
+              .then(() => {
+                // File deleted successfully
+                console.log("File deleted successfully");
+              })
+              .catch(error => {
+                // Uh-oh, an error occurred!
+                console.log("Uh-oh, an error occurred!");
+              });
+          }
+        })
+        .catch(error => {
+          setError(error.message);
+        })
+        .finally(() => console.log("finally"));
+    },
+    [myTweetContents?.docId]
+  );
 
   useEffect(() => {
+    console.log("useEffect for location");
+
     if (!location?.state?.roomId) {
       history.push("/");
     }
   }, [history, location]);
 
   useEffect(() => {
-    dispatch(streamSlice.actions.getMyStreamSagaTrigger());
-    dispatch(getMyDevices());
-    wss.connectWithWebSocket();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
+    console.log("useEffect for joinRoom!");
     if (location?.state?.roomId) {
       console.log(
         "location state 이 존재하니 자동으로 방접속",
@@ -143,15 +138,17 @@ const MyRoom = (props: Props) => {
       );
       handleJoinRoom(location.state.roomId);
     }
-  }, [otherStream, location, handleJoinRoom]);
+  }, [location?.state?.roomId, handleJoinRoom]);
 
   useEffect(() => {
+    console.log("useEffect for error");
     if (error) {
       alert(error);
     }
   }, [error]);
 
   useEffect(() => {
+    console.log("useEffect for 브라우저 종료");
     // window.addEventListener("beforeunload", event => {
     //   // 표준에 따라 기본 동작 방지
     //   event.preventDefault();
@@ -168,7 +165,7 @@ const MyRoom = (props: Props) => {
         onDelete(myTweetContents?.docId, myTweetContents?.uploadPath);
       }
     });
-  });
+  }, [myTweetContents, onDelete]);
   return (
     <MyRoomContainer>
       <MainViewWrapper>

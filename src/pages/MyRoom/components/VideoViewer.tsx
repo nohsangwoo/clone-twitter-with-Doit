@@ -24,6 +24,7 @@ const VideoViewer = ({ stream, setMute }: Props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("useEffect for video viewer");
     try {
       if (stream?.id) {
         userVideo.current.srcObject = stream;
