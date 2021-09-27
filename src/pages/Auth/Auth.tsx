@@ -1,24 +1,61 @@
 import React from "react";
-import authService, { auth } from "fbase";
+// import authService, { auth } from "fbase";
+import { auth } from "fbase";
 import AuthForm from "components/AuthForm";
+import {
+  // createUserWithEmailAndPassword,
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  // signInWithEmailAndPassword,
+  signInWithPopup
+} from "@firebase/auth";
 
 const Auth = () => {
+  //   const onSocialClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  //     const {
+  //       currentTarget: { name }
+  //     } = event;
+  //     let provider;
+  //     if (name === "google") {
+  //       provider = new authService.GoogleAuthProvider();
+  //     } else if (name === "github") {
+  //       provider = new authService.GithubAuthProvider();
+  //     }
+
+  //     let data;
+  //     if (provider) {
+  //       data = await authService.signInWithPopup(auth, provider);
+  //     }
+  //     console.log("social login data: ", data);
+  //   };
+
   const onSocialClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     const {
       currentTarget: { name }
     } = event;
+    let token;
     let provider;
-    if (name === "google") {
-      provider = new authService.GoogleAuthProvider();
-    } else if (name === "github") {
-      provider = new authService.GithubAuthProvider();
-    }
+    try {
+      if (name === "google") {
+        provider = new GoogleAuthProvider();
+        const result = await signInWithPopup(auth, provider);
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        if (credential) {
+          token = credential.accessToken;
+        }
+      } else if (name === "github") {
+        provider = new GithubAuthProvider();
+        const result = await signInWithPopup(auth, provider);
+        const credential = GithubAuthProvider.credentialFromResult(result);
+        if (credential) {
+          token = credential.accessToken;
+        }
+      }
 
-    let data;
-    if (provider) {
-      data = await authService.signInWithPopup(auth, provider);
+      console.log("token", token);
+    } catch (error) {
+      console.log(error);
     }
-    console.log("social login data: ", data);
   };
 
   return (
