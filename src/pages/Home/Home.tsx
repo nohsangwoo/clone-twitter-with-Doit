@@ -75,7 +75,7 @@ const Home = (props: Props) => {
   );
   const [tweets, setTweets] = useState<any>([]);
   const [error, setError] = useState<Error>();
-
+  const userInfo = useSelector((state: RootState) => state.users.userInfo);
   const dispatch = useDispatch();
   const myTweetContents = useSelector(
     (state: RootState) => state.tweets.myTweet
@@ -282,8 +282,8 @@ const Home = (props: Props) => {
         key={tweetObj.id}
         tweetObj={tweetObj}
         // 내가 쓴 tweet만 제어하기 위한 조건
-        // isOwner={tweetObj.creatorId === userInfo.uid}
-        isOwner={true}
+        isOwner={tweetObj.creatorId === userInfo.uid}
+        // isOwner={true}
         getHeight={String(GET_HEIGHT())}
       />
     );

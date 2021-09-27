@@ -26,9 +26,8 @@ function App(): JSX.Element {
       }
       setInit(true);
     });
-    // eslint-disable
-    // @ts-ignore
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
