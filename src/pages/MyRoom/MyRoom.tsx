@@ -18,7 +18,9 @@ import ControlPanel from "components/utils/mediaUtils/ControlPanel";
 const MyRoomContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   position: relative;
+  width: 100%;
   height: 100%;
 `;
 
@@ -35,7 +37,9 @@ const UserListWrapper = styled.div`
   position: fixed;
   bottom: 80px;
   z-index: 10;
-  /* border: 1px solid red; */
+  background: white;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 55%);
+  transition: all 0.5s;
 `;
 
 type HandlieJoinRoomType = {

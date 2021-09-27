@@ -77,7 +77,6 @@ const MyRoomContainer = styled.div`
   position: fixed;
   top: 0;
   background: white;
-  border: 1px solid red;
   z-index: 10;
 `;
 type Props = {};

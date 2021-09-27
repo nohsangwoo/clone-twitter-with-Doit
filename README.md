@@ -242,3 +242,5 @@ set default background image
 ## 리렌더링 관련 버그 수정
 
 ## control panel 추가
+
+## fix css for myRoom

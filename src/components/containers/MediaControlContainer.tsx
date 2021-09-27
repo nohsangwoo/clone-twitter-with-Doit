@@ -10,14 +10,16 @@ interface Props {
   setChatHandler: (chatopen: boolean) => void;
 }
 
-const Home = styled.div`
+const ConversationBTNContainer = styled.div`
   width: 100%;
   position: fixed;
   bottom: 10px;
   left: 0px;
   display: flex;
   justify-content: space-around;
-  border: 1px solid black;
+  background: white;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 55%);
+  transition: all 0.5s;
 `;
 
 const MediaControlContainer = ({
@@ -28,12 +30,12 @@ const MediaControlContainer = ({
     //client 영상 스트리밍 제어버튼모음
 
     // <Home data-aos="fade-left" data-aos-delay="200">
-    <Home>
+    <ConversationBTNContainer>
       <MicBtn />
       <SoundBtn />
       <CamBtn />
       <ChatBtn chatOpen={chatOpen} setChatHandler={setChatHandler} />
-    </Home>
+    </ConversationBTNContainer>
   );
 };
 
